@@ -20,9 +20,9 @@ A [coc.nvim](https://github.com/neoclide/coc.nvim) extension that provides integ
 
 ### Install with coc.nvim
 
-```vim
+<!-- ```vim
 :CocInstall coc-claude
-```
+``` -->
 
 ```init.vim
 Plug 'sika7/coc-claude'
