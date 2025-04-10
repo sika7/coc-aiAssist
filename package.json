@@ -1,0 +1,57 @@
+{
+  "name": "coc-claude",
+  "version": "0.0.0-development",
+  "description": "",
+  "author": "sika7 <91676209+sika7@users.noreply.github.com>",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "keywords": [
+    "coc.nvim"
+  ],
+  "engines": {
+    "coc": "^0.0.82"
+  },
+  "scripts": {
+    "watch": "node esbuild.mjs --watch",
+    "build": "node esbuild.mjs",
+    "prepare": "node esbuild.mjs"
+  },
+  "devDependencies": {
+    "coc.nvim": "^0.0.83-next.18",
+    "esbuild": "^0.19.8",
+    "typescript": "^5.3.3"
+  },
+  "activationEvents": [
+    "*"
+  ],
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "coc-claude configuration",
+      "properties": {
+        "coc-claude.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable coc-claude extension"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "claude.ask",
+        "title": "Ask Claude a question"
+      },
+      {
+        "command": "claude.askCodeOnly",
+        "title": "Ask Claude for code-only response"
+      },
+      {
+        "command": "claude.log",
+        "title": "Show Claude extension log"
+      }
+    ]
+  },
+  "dependencies": {
+    "axios": "^1.8.4"
+  }
+}
