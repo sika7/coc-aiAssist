@@ -1,6 +1,6 @@
 import axios from "axios";
-import { logger } from "./logeer";
-import { jsonToText } from "./utils";
+import { logger } from "../logeer";
+import { jsonToText } from "../utils";
 
 export async function postRequest(url: string, data?: any, headers?: any) {
   try {
