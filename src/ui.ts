@@ -1,5 +1,4 @@
 import { window, workspace } from "coc.nvim";
-import { logger } from "./logeer";
 
 /**
  * フローティングウィンドウ

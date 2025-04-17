@@ -1,5 +1,5 @@
 import { Disposable, MapMode, workspace } from "coc.nvim";
-import { logger } from "./logeer";
+import { logger } from "./utils/logeer";
 
 // ダイアログインスタンスクラス
 export class DialogInstance {

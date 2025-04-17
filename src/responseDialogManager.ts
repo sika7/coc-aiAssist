@@ -1,5 +1,5 @@
 import { window, workspace } from "coc.nvim";
-import { logger } from "./logeer";
+import { logger } from "./utils/logeer";
 
 // ダイアログ管理クラス
 export class ResponseDialogManager {
