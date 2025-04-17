@@ -1,15 +1,10 @@
 import { commands, ExtensionContext, window, workspace } from "coc.nvim";
-import { getConfig } from "./config";
-import {
-  focusWinId,
-  showFloatingWindow,
-  showQuestionBox,
-  showResponse,
-} from "./ui";
-import { makePrompt, selectedText, yankText } from "./utils";
-import { logger } from "./logeer";
+import { focusWinId, showQuestionBox, showResponse } from "./ui";
 import { createCodeOnlyPrompt } from "./prompt";
 import { ClaudeClient } from "./aiClient/claudeClient";
+import { logger } from "./utils/logeer";
+import { getConfig } from "./utils/config";
+import { makePrompt, selectedText, yankText } from "./utils/utils";
 
 interface ClaudeCommandArgs {
   codeOnly?: boolean;
