@@ -9,25 +9,13 @@ import {
 } from "./ui";
 import { makePrompt, selectedText, yankText } from "./utils";
 import { logger } from "./logeer";
+import { createCodeOnlyPrompt } from "./prompt";
 
 interface ClaudeCommandArgs {
   codeOnly?: boolean;
   yank?: boolean;
   requestPreview?: boolean;
   responsePreview?: boolean;
-}
-
-// コードのみ要求するプロンプト
-function createCodeOnlyPrompt(question: string): string {
-  return `I need only executable code with no explanations. The code should be directly usable without modification.
-
-Requirements:
-- Return ONLY the implementation, no markdown code blocks
-- Do not include any explanation text before or after the code
-- Include necessary imports
-- Include brief in-code comments if needed for clarity
-
-Here's my request: ${question}`;
 }
 
 export async function activate(context: ExtensionContext): Promise<void> {
