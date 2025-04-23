@@ -2,26 +2,6 @@ import { window, workspace } from "coc.nvim";
 import { eventManager } from "./eventManager";
 import { logger } from "./utils/logeer";
 
-export async function showInput() {
-  const key = "coc-aiAssist##notification##input";
-  // eventManager.registerCallback(key, (_, text) => {
-  //   logger.info(text);
-  // });
-  workspace.nvim.call("luaeval", [
-    `require("coc-aiAssist").show_input("${key}", "質問", "")`,
-  ]);
-}
-
-export async function showWindow() {
-  const key = "coc-aiAssist##notification##window";
-  // eventManager.registerCallback(key, (_, text) => {
-  //   logger.info(text);
-  // });
-  workspace.nvim.call("luaeval", [
-    `require("coc-aiAssist").show_window("${key}")`,
-  ]);
-}
-
 export interface Item {
   text: string;
   value: string;
@@ -42,28 +22,42 @@ export async function showTestWindow() {
     {
       text: "オプション1",
       value: "value1",
-      // preview: {
-      //   text: "これはオプション1のプレビューです。",
-      //   ft: "markdown",
-      // },
+      preview: {
+        text: "これはオプション1のプレビューです。",
+        ft: "markdown",
+      },
     },
     {
       text: "オプション2",
       value: "value2",
-      // preview: {
-      //   text: "これはオプション2のプレビューです。",
-      //   ft: "markdown",
-      // },
+      preview: {
+        text: "これはオプション2のプレビューです。",
+        ft: "markdown",
+      },
     },
   ];
-  await showSelectWindow(
-    "テンプレート選択",
-    "テンプレを選択",
-    items,
-    (value) => {
-      logger.info(value);
-    },
-  );
+  await showWindow(items);
+}
+
+export async function showInput() {
+  const eventName = `aiAssist.input.${generateShortUuid(8)}`;
+  eventManager.registerCallback(eventName, (text) => {
+    logger.info(text);
+  });
+  workspace.nvim.call("luaeval", [
+    `require("coc-aiAssist").show_input("${eventName}", "質問", "")`,
+  ]);
+}
+
+export async function showWindow(items: Item[]) {
+  const eventName = `aiAssist.window.${generateShortUuid(8)}`;
+  const itemsText = JSON.stringify(items).replace(/'/g, "\\'");
+  eventManager.registerCallback(eventName, (text) => {
+    logger.info(text);
+  });
+  workspace.nvim.call("luaeval", [
+    `require("coc-aiAssist").showWindow("${eventName}", '${itemsText}')`,
+  ]);
 }
 
 export async function showSelectWindow(

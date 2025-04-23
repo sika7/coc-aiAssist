@@ -153,17 +153,41 @@ function M.input(title, placeholder, callback)
   end)
 end
 
-function M.window(callback)
+function M.window(templateCallback, sendCallback)
+  local buf = vim.api.nvim_create_buf(false, true)
   local win = require("snacks.win")
-  local test = win.new({
-    relative = "editor",
-    height = 0.9,
-    width = 0.9,
+  local myWin = win.new({
+    buf = buf,
+    height = 0.8,
+    width = 0.8,
     style = "minimal",
     border = "rounded",
+    ft = "markdown",
+    wo = {
+      spell = false,
+      wrap = false,
+      signcolumn = "yes",
+      statuscolumn = " ",
+      conceallevel = 0,
+    },
+    actions = {
+      ["template_replace"] = function(actions)
+        templateCallback(buf, actions)
+      end,
+      ["send_request"] = function(actions)
+        local text = actions:text()
+        sendCallback(text)
+        actions:close()
+      end,
+    },
+    keys = {
+      ["<Esc>"] = "cancel",
+      ["q"] = "close",
+      ["<c-t>"] = { "template_replace", mode = { "i", "n" } },
+      ["<c-s>"] = { "send_request", mode = { "i", "n" } },
+    },
   })
-
-  test:open()
+  myWin:set_title("編集ウィンドウ <c-t> テンプレを選択 <c-s>送信", "center")
 end
 
 return M

@@ -101,10 +101,27 @@ function M.show_input(noticeName, title, placeholder)
   end)
 end
 
-function M.show_window(noticeName)
-  window.window(function()
-    myNotice(noticeName, "")
-  end)
+function M.showWindow(noticeName, jsonStr)
+  local items = vim.fn.json_decode(jsonStr)
+
+  local setTemple = function(buf, actions)
+    -- バッファーを設定するコールバック
+    window.selectAndPreviewWindow("テンプレート選択", "テンプレ:", items, function(item)
+      -- 選択したテンプレのプレビューをバッファーに設定
+      local lines = vim.split(item.preview.text, "\n")
+      vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+      actions:focus()
+    end)
+  end
+
+  local sendText = function(text)
+    -- 送信するテキストのコールバック
+    myNotice(noticeName, text)
+  end
+
+  window.window(
+    setTemple,
+    sendText)
 end
 
 -- フローティングウインドウを開く関数
