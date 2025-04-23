@@ -2,8 +2,6 @@ local M = {}
 
 -- pickerを任意の形で再利用できる
 
-local picker = require("snacks.picker")
-
 local winSetting = {
   -- input window
   input = {
@@ -81,6 +79,7 @@ local winSetting = {
 }
 -- メイン機能
 function M.selectWindow(title, prompt, items, callback)
+  local picker = require("snacks.picker")
   picker.pick({
     prompt = prompt,
     title = title,
@@ -102,6 +101,7 @@ function M.selectWindow(title, prompt, items, callback)
 end
 
 function M.selectAndPreviewWindow(title, prompt, items, callback)
+  local picker = require("snacks.picker")
   -- local items = {
   --   {
   --     text = "オプション1",
@@ -140,6 +140,30 @@ function M.selectAndPreviewWindow(title, prompt, items, callback)
       pickerInstance:close()
     end,
   })
+end
+
+function M.input(title, placeholder, callback)
+  local input = require("snacks.input")
+  input.input({
+    prompt = title,
+    default = placeholder,
+    backdrop = true,
+  }, function(text)
+    callback(text)
+  end)
+end
+
+function M.window(callback)
+  local win = require("snacks.win")
+  local test = win.new({
+    relative = "editor",
+    height = 0.9,
+    width = 0.9,
+    style = "minimal",
+    border = "rounded",
+  })
+
+  test:open()
 end
 
 return M

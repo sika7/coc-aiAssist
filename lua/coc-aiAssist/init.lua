@@ -24,8 +24,6 @@ function M.selectWindow(noticeName, title, prompt, jsonStr)
   end)
 end
 
-
-
 function M.selectAndPreviewWindow(noticeName, title, prompt, jsonStr)
   local items = vim.fn.json_decode(jsonStr)
   window.selectAndPreviewWindow(title, prompt, items, function(item)
@@ -94,45 +92,23 @@ end
 
 
 -- メイン機能
-function M.show_input(key, title, placeholder)
-  local input = require("snacks.input")
-  vim.g.async_result = nil
-  input.input({
-    prompt = title,
-    default = placeholder,
-    backdrop = true,
-  }, function(text)
+function M.show_input(noticeName, title, placeholder)
+  window.input(title, placeholder, function(text)
     if not text then
       text = ""
     end
-    vim.fn.rpcnotify(channelId, key, text)
+    myNotice(noticeName, text)
   end)
 end
 
-function M.show_window(key)
-  local window = require("snacks.win")
-  window.new({
-    relative = "editor",
-    height = 0.9,
-    width = 0.9,
-    style = "minimal",
-    border = "rounded",
-  })
-  vim.fn.rpcnotify(channelId, key, "")
+function M.show_window(noticeName)
+  window.window(function()
+    myNotice(noticeName, "")
+  end)
 end
-
-local win_id = nil
-local buf_id = nil
-
--- テンプレートテキスト
-local template_text = {
-  "これはテンプレートです。",
-  "必要な情報を書き加えてください。",
-}
 
 -- フローティングウインドウを開く関数
 function M.open_snack_window(key)
-  local window = require("snacks.win")
   -- buf_id = vim.api.nvim_create_buf(false, true)
   local test = window.new({
     relative = "editor",
