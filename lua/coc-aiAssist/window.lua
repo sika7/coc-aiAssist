@@ -46,7 +46,6 @@ local winSetting = {
       ["<CR>"] = "confirm",
       ["<Down>"] = "list_down",
       ["<Esc>"] = "cancel",
-      ["<S-CR>"] = { { "pick_win", "jump" } },
       ["<Tab>"] = "list_down",
       ["<Up>"] = "list_up",
       ["<c-j>"] = "list_down",
@@ -88,8 +87,7 @@ function M.selectWindow(title, prompt, items, callback)
     items = items,
     format = "text",
     layout = "select",
-    preview = "preview",
-    -- layout = "dropdown",
+    preview = false,
     -- search = function(_, item)
     --   return ""
     -- end,

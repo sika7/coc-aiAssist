@@ -19,7 +19,7 @@ end
 
 function M.selectWindow(noticeName, title, prompt, jsonStr)
   local items = vim.fn.json_decode(jsonStr)
-  window.selectAndPreviewWindow(title, prompt, items, function(item)
+  window.selectWindow(title, prompt, items, function(item)
     myNotice(noticeName, item.value)
   end)
 end

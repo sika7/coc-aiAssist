@@ -25,7 +25,7 @@ export async function showWindow() {
 export interface Item {
   text: string;
   value: string;
-  preview: {
+  preview?: {
     text: string;
     ft: string;
   };
@@ -42,33 +42,44 @@ export async function showTestWindow() {
     {
       text: "オプション1",
       value: "value1",
-      preview: {
-        text: "これはオプション1のプレビューです。",
-        ft: "markdown",
-      },
+      // preview: {
+      //   text: "これはオプション1のプレビューです。",
+      //   ft: "markdown",
+      // },
     },
     {
       text: "オプション2",
       value: "value2",
-      preview: {
-        text: "これはオプション2のプレビューです。",
-        ft: "markdown",
-      },
+      // preview: {
+      //   text: "これはオプション2のプレビューです。",
+      //   ft: "markdown",
+      // },
     },
   ];
-  await showSelectAndPreviewWindow(
+  await showSelectWindow(
     "テンプレート選択",
     "テンプレを選択",
     items,
     (value) => {
-      items
-        .filter((item) => item.value == value)
-        .map((item) => item.preview.text)
-        .forEach((text) => {
-          logger.info(text);
-        });
+      logger.info(value);
     },
   );
+}
+
+export async function showSelectWindow(
+  title = "",
+  prompt = "",
+  items: Item[] = [],
+  callback: (selectValue: string) => void,
+) {
+  const eventName = `aiAssist.selectWin.${generateShortUuid(8)}`;
+  const itemsText = JSON.stringify(items).replace(/'/g, "\\'");
+  eventManager.registerCallback(eventName, (value) => {
+    callback(value);
+  });
+  workspace.nvim.call("luaeval", [
+    `require("coc-aiAssist").selectWindow("${eventName}", "${title}", "${prompt}", '${itemsText}')`,
+  ]);
 }
 
 export async function showSelectAndPreviewWindow(
