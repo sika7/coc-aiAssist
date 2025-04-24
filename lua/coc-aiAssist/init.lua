@@ -142,52 +142,18 @@ function M.showDetailedWindow(noticeName, title, prompt, jsonStr)
     sendText)
 end
 
--- フローティングウインドウを開く関数
-function M.open_snack_window(key)
-  -- buf_id = vim.api.nvim_create_buf(false, true)
-  local test = window.new({
-    relative = "editor",
-    height = 0.9,
-    width = 0.9,
-    -- row = 4,
-    -- col = 10,
-    style = "minimal",
-    border = "rounded",
-  })
+function M.historyWindow(title, prompt, jsonStr)
+  local items = safeJsonDecode(jsonStr)
 
-  test:open()
+  -- 確定時
+  local confirm = function(_, item)
+    local cancel = function(actions)
+      actions:close({ buf = true })
+    end
+    window.previewWin(item.value, cancel)
+  end
 
-  -- キーマップ設定
-  -- local opts = { noremap = true, silent = true, buffer = buf_id }
-
-  -- <C-s> で内容取得
-  -- vim.api.nvim_buf_set_keymap(buf_id, "n", "<C-s>", "", vim.tbl_extend("force", opts, {
-  --   callback = function()
-  --     local lines = vim.api.nvim_buf_get_lines(buf_id, 0, -1, false)
-  --     print("入力された内容:")
-  --     print(table.concat(lines, "\n"))
-  --     vim.fn.rpcnotify(channelId, key, table.concat(lines, "\n"))
-  --     if win_id and vim.api.nvim_win_is_valid(win_id) then
-  --       vim.api.nvim_win_close(win_id, true)
-  --     end
-  --   end,
-  -- }))
-
-  -- <C-q> でウィンドウ閉じる
-  -- vim.api.nvim_buf_set_keymap(buf_id, "n", "<C-q>", "", vim.tbl_extend("force", opts, {
-  --   callback = function()
-  --     if win_id and vim.api.nvim_win_is_valid(win_id) then
-  --       vim.api.nvim_win_close(win_id, true)
-  --     end
-  --   end,
-  -- }))
-
-  -- <C-t> でテンプレート挿入
-  -- vim.api.nvim_buf_set_keymap(buf_id, "n", "<C-t>", "", vim.tbl_extend("force", opts, {
-  --   callback = function()
-  --     vim.api.nvim_buf_set_lines(buf_id, 0, -1, false, template_text)
-  --   end,
-  -- }))
+  window.selectAndPreviewWin(title, prompt, items, confirm)
 end
 
 return M

@@ -196,4 +196,79 @@ function M.window(templateCallback, sendCallback)
   myWin:set_title("編集ウィンドウ <c-t> テンプレを選択 <c-s>送信", "center")
 end
 
+function M.previewWin(text, cancelCallback)
+  local win = require("snacks.win")
+  local buf = vim.api.nvim_create_buf(false, true)
+
+  -- コンテンツを設定
+  if type(text) == "string" then
+    text = vim.split(text, "\n")
+  end
+
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, text)
+
+  -- バッファオプション設定
+  vim.api.nvim_buf_set_option(buf, "modifiable", false)
+  vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
+
+  local myWin = win.new({
+    buf = buf,
+    height = 0.8,
+    width = 0.8,
+    style = "minimal",
+    border = "rounded",
+    ft = "markdown",
+    zindex = 500,
+    wo = {
+      spell = false,
+      wrap = false,
+      signcolumn = "no",
+      statuscolumn = " ",
+      conceallevel = 0,
+    },
+    actions = {
+      ["text_all_yank"] = function(actions)
+        local textData = actions:text()
+        vim.fn.setreg("+", textData)
+        vim.notify("回答をヤンクしました", vim.log.levels.INFO)
+      end,
+      ["cancel"] = function(actions)
+        cancelCallback(actions)
+      end,
+      ["close"] = function(actions)
+        cancelCallback(actions)
+      end,
+    },
+    keys = {
+      ["<Esc>"] = "cancel",
+      ["q"] = "close",
+      ["<c-c>"] = { "close", mode = { "n" } },
+      ["<c-y>"] = { "text_all_yank", mode = { "n" } },
+    },
+  })
+  myWin:set_title("詳細 <q>閉じる, <c-y>回答のテキストをすべてヤンク", "center")
+
+  -- 明示的にノーマルモードに切り替え
+  vim.schedule(function()
+    vim.cmd("stopinsert")
+  end)
+end
+
+function M.selectAndPreviewWin(title, prompt, items, confirmCallback)
+  local picker = require("snacks.picker")
+
+  picker.pick({
+    prompt = prompt,
+    title = title,
+    items = items,
+    format = "text",
+    layout = "default",
+    preview = "preview",
+    win = winSetting,
+    confirm = function(pickerInstance, item)
+      confirmCallback(pickerInstance, item)
+    end,
+  })
+end
+
 return M

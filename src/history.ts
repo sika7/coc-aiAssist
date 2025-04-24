@@ -1,5 +1,6 @@
 import { homeDirPath, readFile, saveFile } from "./utils/utils";
 import { logger } from "./utils/logeer";
+import { Item } from "./template";
 
 interface HistoryEntry {
   system: string;
@@ -28,8 +29,17 @@ class HistoryManager {
     this.save();
   }
 
-  public getAll(): HistoryEntry[] {
-    return [...this.entries];
+  public getAllItems(): Item[] {
+    return this.entries.map((item) => {
+      return {
+        text: `${item.question} ${item.system} ${item.answer}`,
+        value: item.answer,
+        preview: {
+          text: item.answer,
+          ft: "markdown",
+        },
+      };
+    });
   }
 
   private save(): void {
@@ -48,7 +58,7 @@ class HistoryManager {
         this.entries = parsed.slice(0, MAX_HISTORY);
       }
     } catch (err) {
-      logger.info("ヒストリーファイルがありません")
+      logger.info("ヒストリーファイルがありません");
     }
   }
 }

@@ -4,6 +4,7 @@ import { logger } from "./utils/logeer";
 import {
   detailedAssist,
   quickAssist,
+  showHistory,
   showPromptTemplateExample,
   writePromptTemplateExample,
 } from "./command";
@@ -131,6 +132,11 @@ export async function activate(context: ExtensionContext): Promise<void> {
     },
   );
 
+  const history = commands.registerCommand("claude.showHistory", async () => {
+    logger.info(`claude-code-showHistory`);
+    showHistory();
+  });
+
   const showExample = commands.registerCommand(
     "claude.showExample",
     async () => {
@@ -156,6 +162,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     log,
     ask,
     detailedAsk,
+    history,
     showExample,
     writeExample,
     test,

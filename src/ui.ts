@@ -85,6 +85,17 @@ export async function showSelectAndPreviewWindow(
   ]);
 }
 
+export async function showHistoryWindow(
+  title = "",
+  prompt = "",
+  items: Item[] = [],
+) {
+  const itemsText = JSON.stringify(items).replace(/'/g, "\\'");
+  workspace.nvim.call("luaeval", [
+    `require("coc-aiAssist").historyWindow("${title}", "${prompt}", '${itemsText}')`,
+  ]);
+}
+
 /**
  * フローティングウィンドウ
  */
