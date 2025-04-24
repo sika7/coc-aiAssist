@@ -1,6 +1,5 @@
 import { templateManager } from "./template";
-import { showResponse, showWindow } from "./ui";
-import {logger} from "./utils/logeer";
+import { showDetailedWindow, showResponse } from "./ui";
 
 // インプットで質問する機能
 export async function quickAssist() {}
@@ -8,7 +7,7 @@ export async function quickAssist() {}
 // 詳細を質問する機能
 export async function detailedAssist() {
   const items = templateManager.getItems();
-  showWindow(items);
+  showDetailedWindow(items);
 }
 
 export function showExample() {

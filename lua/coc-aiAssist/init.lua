@@ -106,7 +106,7 @@ function M.show_input(noticeName, title, placeholder)
   end)
 end
 
-function M.showWindow(noticeName, jsonStr)
+function M.showDetailedWindow(noticeName, jsonStr)
   local items = safeJsonDecode(jsonStr)
 
   local setTemple = function(buf, actions)

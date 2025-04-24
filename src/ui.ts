@@ -49,14 +49,14 @@ export async function showInput() {
   ]);
 }
 
-export async function showWindow(items: Item[]) {
+export async function showDetailedWindow(items: Item[]) {
   const eventName = `aiAssist.window.${generateShortUuid(8)}`;
   const itemsText = JSON.stringify(items).replace(/'/g, "\\'");
   eventManager.registerCallback(eventName, (text) => {
     logger.info(text);
   });
   workspace.nvim.call("luaeval", [
-    `require("coc-aiAssist").showWindow("${eventName}", '${itemsText}')`,
+    `require("coc-aiAssist").showDetailedWindow("${eventName}", '${itemsText}')`,
   ]);
 }
 
