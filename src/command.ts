@@ -10,7 +10,7 @@ export async function quickAssist() {
 
     const systemPrompt = templateManager.getCurrentSystemPrompt();
     const answer = await apiRequestManager.send(question, systemPrompt);
-    historyManager.add("", question, answer);
+    historyManager.add(systemPrompt, question, answer);
     toastInfo("AIから回答が届きました");
   });
 }
