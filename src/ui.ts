@@ -37,6 +37,12 @@ export async function showDetailedWindow(items: Item[], callback: (text: string)
   ]);
 }
 
+export async function toastInfo(message: string) {
+  workspace.nvim.call("luaeval", [
+    `require("coc-aiAssist").toastInfo("${message}")`,
+  ]);
+}
+
 export async function showSelectWindow(
   title = "",
   prompt = "",

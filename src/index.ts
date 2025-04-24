@@ -4,7 +4,14 @@ import { createCodeOnlyPrompt } from "./prompt";
 import { ClaudeClient } from "./aiClient/claudeClient";
 import { logger } from "./utils/logeer";
 import { getConfig } from "./utils/config";
-import { makePrompt, selectedText, yankText } from "./utils/utils";
+import {
+  getPluginFilePath,
+  makePrompt,
+  removeMarkdownFormat,
+  selectedText,
+  yankText,
+} from "./utils/utils";
+import { detailedAssist } from "./command";
 
 interface ClaudeCommandArgs {
   codeOnly?: boolean;
@@ -17,7 +24,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   // ロガーの初期化
   logger.info("Claude Command extension activated"); // 開発者ログ
 
-  const { apiKey, model, maxTokens } = getConfig();
+  const { apiKey, model, maxTokens } = await getConfig();
   const claudeClient = new ClaudeClient(apiKey, model, maxTokens);
 
   if (!apiKey) {
@@ -82,7 +89,16 @@ export async function activate(context: ExtensionContext): Promise<void> {
       }
 
       // Claude API にリクエストを送信
-      const response = await claudeClient.sendMessage(prompt);
+      const system = codeOnlyMode
+        ? "You are a code generator. You always respond with only functioning code, no explanations outside of code comments."
+        : "You are a helpful assistant for developers. Provide clear, concise responses that can be directly used in code.";
+
+      let response = await claudeClient.sendMessage(prompt, system);
+
+      // コードオンリーリクエストの場合、マークダウンフォーマットを取り除く
+      if (codeOnlyMode) {
+        response = removeMarkdownFormat(response);
+      }
       logger.info(response);
 
       // ヤンクにいれる

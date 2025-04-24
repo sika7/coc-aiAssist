@@ -22,6 +22,10 @@ local function myNotice(noticeName, value)
   vim.fn.rpcnotify(channelId, noticeName, value)
 end
 
+function M.toastInfo(message)
+  vim.notify(message, vim.log.levels.INFO)
+end
+
 function M.selectWindow(noticeName, title, prompt, jsonStr)
   local items = vim.fn.json_decode(jsonStr)
   window.selectWindow(title, prompt, items, function(item)

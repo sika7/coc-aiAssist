@@ -1,5 +1,7 @@
+import { logger } from "../utils/logeer";
 import { postRequest } from "../utils/request";
 import { removeMarkdownFormat } from "../utils/utils";
+import { AiClient } from "./common";
 
 // APIレスポンスの型 実際には配列で帰る
 export interface ClaudeTextContent {
@@ -16,28 +18,34 @@ function responseToText(content: ClaudeTextContent[]): string {
     .join("\n");
 }
 
+const isNumber = (value: any): value is number =>
+  typeof value === "number" && !isNaN(value);
+
 // Claude API クライアントクラス
-export class ClaudeClient {
+export class ClaudeClient implements AiClient {
+  name = "claude";
   private apiKey: string;
   private model: string;
-  private maxTokens: number;
+  private maxTokens: number = 1000;
 
-  constructor(apiKey: string, model: string, maxTokens: number) {
-    this.apiKey = apiKey;
-    this.model = model;
-    this.maxTokens = maxTokens;
+  constructor() {
+    this.apiKey = process.env.CLAUDE_API_KEY || "";
+    this.model = process.env.CLAUDE_API_MODEL || "claude-3-7-sonnet-20250219";
+
+    const maxTokens = process.env.CLAUDE_API_MAX_TOKENS;
+    if (isNumber(maxTokens)) {
+      this.maxTokens = maxTokens;
+    }
   }
 
-  async sendMessage(message: string): Promise<string> {
-    try {
-      // コードオンリーモードを検出
-      const isCodeOnlyRequest = message.includes(
-        "I need only executable code with no explanations",
-      );
+  isHealthy() {
+    if (this.apiKey === "") return false;
+    if (this.model === "") return false;
+    return true;
+  }
 
-      const system = isCodeOnlyRequest
-        ? "You are a code generator. You always respond with only functioning code, no explanations outside of code comments."
-        : "You are a helpful assistant for developers. Provide clear, concise responses that can be directly used in code.";
+  async sendMessage(message: string, system: string): Promise<string> {
+    try {
 
       const requestData = {
         model: this.model,
@@ -68,12 +76,6 @@ export class ClaudeClient {
       if (response.data && response.data.content) {
         // content は配列で、各要素に type が含まれる
         result = responseToText(response.data.content);
-        // コードオンリーリクエストの場合、マークダウンフォーマットを取り除く
-
-        if (isCodeOnlyRequest) {
-          result = removeMarkdownFormat(result);
-        }
-
         return result;
       }
 
