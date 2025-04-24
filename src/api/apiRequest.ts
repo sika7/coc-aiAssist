@@ -1,30 +1,13 @@
-import axios from "axios";
-import { logger } from "../utils/logeer";
-import { jsonToText } from "../utils/utils";
+class ApiRequestManager {
+  currentModel = "Claude";
 
-export async function postRequest(url: string, data?: any, headers?: any) {
-  try {
-    const response = await axios.post(url, data, {
-      headers,
-    });
+  constructor() {}
 
-    // レスポンス構造のログ
-    logger.info(`Content structure: ${jsonToText(response.data)}`);
+  getCurrentModel() {}
 
-    if (response.data && response.data.content) {
-      return response;
-    }
-    throw new Error("Invalid response from API");
-  } catch (error) {
-    // instanceof を使用して型安全にエラーをチェック
-    if (error instanceof Error) {
-      logger.error(`Error calling API: ${error.message}`);
-    } else {
-      // 未知のエラーオブジェクト
-      logger.error("Unknown error occurred", error);
-    }
+  setCurrentModel() {}
 
-    logger.show(); // エラー時にログを表示
-    throw error;
-  }
+  send() {}
 }
+
+export const apiRequestManager = new ApiRequestManager();

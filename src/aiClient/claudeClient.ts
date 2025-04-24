@@ -1,7 +1,7 @@
-import { postRequest } from "../api/apiRequest";
+import { postRequest } from "../utils/api";
 import { removeMarkdownFormat } from "../utils/utils";
 
-// APIレスポンスの型 実際には配列で変える
+// APIレスポンスの型 実際には配列で帰る
 export interface ClaudeTextContent {
   type: string;
   text: string;

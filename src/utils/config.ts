@@ -1,7 +1,7 @@
 import { parse } from "yaml";
 import dotenv from "dotenv";
 import { workspace } from "coc.nvim";
-import { readFile } from "./utils";
+import { getNvimConfigFilePath, readFile } from "./utils";
 
 export interface ClaudeConfig {
   apiKey: string;
@@ -9,9 +9,11 @@ export interface ClaudeConfig {
   maxTokens: number;
 }
 
-export function getConfig(): ClaudeConfig {
-  dotenv.config();
-  const apiKey = process.env.CLAUDE_API_KEY;
+export async function getConfig(): Promise<ClaudeConfig> {
+  const envFilePath = await getNvimConfigFilePath(".env");
+  dotenv.config({ path: envFilePath });
+
+  // const apiKey = process.env.CLAUDE_API_KEY;
   const config = workspace.getConfiguration("claude");
   return {
     apiKey: config.get<string>("apiKey", ""),

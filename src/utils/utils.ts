@@ -1,3 +1,4 @@
+import os from "os";
 import fs, { promises } from "fs";
 import path from "path";
 import { Range, TextEdit, window, workspace } from "coc.nvim";
@@ -10,6 +11,10 @@ export function jsonToText(obj: any): string {
 export function pluginRoot() {
   const pluginRoot = path.resolve(__dirname, "..");
   return pluginRoot;
+}
+
+export function homeDirPath(relativePath: string) {
+  return path.join(os.homedir(), relativePath);
 }
 
 export function getPluginFilePath(relativePath: string) {
@@ -30,6 +35,11 @@ export async function getStdPath(
   return await workspace.nvim.call("luaeval", [`vim.fn.stdpath("${type}")`]);
 }
 
+export async function getNvimConfigFilePath(filePath: string) {
+  const configPath = await getStdPath();
+  return path.join(configPath, filePath);
+}
+
 export async function writeFileIfNotExistsAsync(
   filePath: string,
   content: string,
@@ -46,6 +56,11 @@ export async function writeFileIfNotExistsAsync(
       throw err;
     }
   }
+}
+
+export async function saveFile<T>(filePath: string, data: T) {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
 }
 
 export function notis(message: string) {
