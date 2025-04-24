@@ -1,4 +1,7 @@
+import { parse } from "yaml";
+import dotenv from "dotenv";
 import { workspace } from "coc.nvim";
+import { readFile } from "./utils";
 
 export interface ClaudeConfig {
   apiKey: string;
@@ -7,6 +10,8 @@ export interface ClaudeConfig {
 }
 
 export function getConfig(): ClaudeConfig {
+  dotenv.config();
+  const apiKey = process.env.CLAUDE_API_KEY;
   const config = workspace.getConfiguration("claude");
   return {
     apiKey: config.get<string>("apiKey", ""),
@@ -15,3 +20,12 @@ export function getConfig(): ClaudeConfig {
   };
 }
 
+/**
+ * YAML ファイルを読み込んでオブジェクトとして返す関数
+ * @param filePath 読み込むYAMLファイルのパス
+ */
+export function readYamlFile<T = any>(filePath: string): T {
+  const fileContents = readFile(filePath);
+  const data = parse(fileContents);
+  return data as T;
+}

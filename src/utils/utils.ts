@@ -1,8 +1,55 @@
+import fs, { promises } from "fs";
+import path from "path";
 import { Range, TextEdit, window, workspace } from "coc.nvim";
 import { logger } from "./logeer";
 
 export function jsonToText(obj: any): string {
   return JSON.stringify(obj, null, 2);
+}
+
+export function pluginRoot() {
+  const pluginRoot = path.resolve(__dirname, "..");
+  return pluginRoot;
+}
+
+export function getPluginFilePath(relativePath: string) {
+  const rootPath = pluginRoot();
+  const templatePath = path.join(rootPath, relativePath);
+  return templatePath;
+}
+
+export function readFile(filePath: string): string {
+  const absolutePath = path.resolve(filePath);
+  const fileContents = fs.readFileSync(absolutePath, "utf8");
+  return fileContents;
+}
+
+export async function getStdPath(
+  type: "config" | "data" | "cache" | "state" | "runtime" = "config",
+): Promise<string> {
+  return await workspace.nvim.call("luaeval", [`vim.fn.stdpath("${type}")`]);
+}
+
+export async function writeFileIfNotExistsAsync(
+  filePath: string,
+  content: string,
+): Promise<void> {
+  const resolvedPath = path.resolve(filePath);
+
+  try {
+    await promises.access(resolvedPath);
+    throw new Error(`File already exists: ${resolvedPath}`);
+  } catch (err: any) {
+    if (err.code === "ENOENT") {
+      await promises.writeFile(resolvedPath, content, { encoding: "utf8" });
+    } else {
+      throw err;
+    }
+  }
+}
+
+export function notis(message: string) {
+  window.showInformationMessage(`[aiAssist] ${message}`);
 }
 
 // マークダウンフォーマットを取り除く

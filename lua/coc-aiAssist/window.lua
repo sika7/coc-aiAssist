@@ -128,13 +128,13 @@ function M.selectAndPreviewWindow(title, prompt, items, callback)
     format = "text",
     layout = "default",
     preview = "preview",
+    win = winSetting,
     -- layout = "dropdown",
     -- search = function(_, item)
     --   return ""
     -- end,
     -- live = true,
     -- supports_live = false,
-    win = winSetting,
     confirm = function(pickerInstance, item)
       callback(item)
       pickerInstance:close()

@@ -13,7 +13,7 @@ class Logger {
 
   error(message: string, error?: any): void {
     this.channel.append(`[ERROR] ${message}\n`);
-    window.showErrorMessage(message)
+    window.showErrorMessage(`[aiAssist] ${message}`)
     if (error) {
       // エラーオブジェクトを適切に文字列化
       if (typeof error === "object") {

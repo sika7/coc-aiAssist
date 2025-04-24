@@ -11,6 +11,11 @@ local function cocChannelId()
   end
 end
 
+local function safeJsonDecode(jsonStr)
+  local safe = jsonStr:gsub("[\r\n]", "\\n")
+  return vim.fn.json_decode(safe)
+end
+
 local channelId = cocChannelId()
 
 local function myNotice(noticeName, value)
@@ -102,7 +107,7 @@ function M.show_input(noticeName, title, placeholder)
 end
 
 function M.showWindow(noticeName, jsonStr)
-  local items = vim.fn.json_decode(jsonStr)
+  local items = safeJsonDecode(jsonStr)
 
   local setTemple = function(buf, actions)
     -- バッファーを設定するコールバック
