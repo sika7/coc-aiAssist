@@ -100,7 +100,7 @@ function M.selectWindow(title, prompt, items, callback)
   })
 end
 
-function M.selectAndPreviewWindow(title, prompt, items, callback)
+function M.selectAndPreviewWindow(title, prompt, items, confirmCallback, closeCallback)
   local picker = require("snacks.picker")
   -- local items = {
   --   {
@@ -135,8 +135,14 @@ function M.selectAndPreviewWindow(title, prompt, items, callback)
     -- end,
     -- live = true,
     -- supports_live = false,
+    actions = {
+      ["close"] = function(actions)
+        closeCallback()
+        actions:close()
+      end,
+    },
     confirm = function(pickerInstance, item)
-      callback(item)
+      confirmCallback(item)
       pickerInstance:close()
     end,
   })

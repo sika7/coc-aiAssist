@@ -110,13 +110,22 @@ function M.showWindow(noticeName, jsonStr)
   local items = safeJsonDecode(jsonStr)
 
   local setTemple = function(buf, actions)
-    -- バッファーを設定するコールバック
-    window.selectAndPreviewWindow("テンプレート選択", "テンプレ:", items, function(item)
+    -- 確定時
+    local confirm = function(item)
       -- 選択したテンプレのプレビューをバッファーに設定
       local lines = vim.split(item.preview.text, "\n")
       vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
       actions:focus()
-    end)
+    end
+
+    -- ウィンドウのクローズ時
+    local cancel = function()
+      -- フォーカスを戻す
+      actions:focus()
+    end
+
+    -- バッファーを設定するコールバック
+    window.selectAndPreviewWindow("テンプレート選択", "テンプレ:", items, confirm, cancel)
   end
 
   local sendText = function(text)
