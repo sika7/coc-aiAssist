@@ -8,11 +8,9 @@ export async function quickAssist() {
   showInput(async (question) => {
     if (question === "") return;
 
-    const answer = await apiRequestManager.send(
-      question,
-      "You are a helpful assistant for developers. Provide clear, concise responses that can be directly used in code.",
-    );
-    historyManager.add(question, answer);
+    const systemPrompt = templateManager.getCurrentSystemPrompt();
+    const answer = await apiRequestManager.send(question, systemPrompt);
+    historyManager.add("", question, answer);
     toastInfo("AIから回答が届きました");
   });
 }
@@ -20,19 +18,22 @@ export async function quickAssist() {
 // 詳細を質問する機能
 export async function detailedAssist() {
   // プロンプトテンプレートを取得
-  const items = templateManager.getItems();
+  const items = templateManager.getPromptTemplateItems();
 
   // 詳細質問用のウインドウを表示
-  showDetailedWindow(items, async (question) => {
-    if (question === "") return;
+  showDetailedWindow(
+    "テンプレート選択",
+    "テンプレ:",
+    items,
+    async (question) => {
+      if (question === "") return;
 
-    const answer = await apiRequestManager.send(
-      question,
-      "You are a helpful assistant for developers. Provide clear, concise responses that can be directly used in code.",
-    );
-    historyManager.add(question, answer);
-    toastInfo("AIから回答が届きました");
-  });
+      const systemPrompt = templateManager.getCurrentSystemPrompt();
+      const answer = await apiRequestManager.send(question, systemPrompt);
+      historyManager.add("", question, answer);
+      toastInfo("AIから回答が届きました");
+    },
+  );
 }
 
 export function showPromptTemplateExample() {

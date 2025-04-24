@@ -17,8 +17,7 @@ function generateShortUuid(length: number = 8): string {
     .substring(2, 2 + length);
 }
 
-export async function showTestWindow() {
-}
+export async function showTestWindow() {}
 
 export async function showInput(callback: (text: string) => void) {
   const eventName = `aiAssist.input.${generateShortUuid(8)}`;
@@ -28,12 +27,17 @@ export async function showInput(callback: (text: string) => void) {
   ]);
 }
 
-export async function showDetailedWindow(items: Item[], callback: (text: string) => void) {
+export async function showDetailedWindow(
+  title = "",
+  prompt = "",
+  items: Item[],
+  callback: (text: string) => void,
+) {
   const eventName = `aiAssist.window.${generateShortUuid(8)}`;
   const itemsText = JSON.stringify(items).replace(/'/g, "\\'");
   eventManager.registerCallback(eventName, callback);
   workspace.nvim.call("luaeval", [
-    `require("coc-aiAssist").showDetailedWindow("${eventName}", '${itemsText}')`,
+    `require("coc-aiAssist").showDetailedWindow("${eventName}", "${title}", "${prompt}", '${itemsText}')`,
   ]);
 }
 

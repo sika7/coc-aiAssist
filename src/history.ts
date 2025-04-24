@@ -2,6 +2,7 @@ import { homeDirPath, readFile, saveFile } from "./utils/utils";
 import { logger } from "./utils/logeer";
 
 interface HistoryEntry {
+  system: string;
   question: string;
   answer: string;
   timestamp: number;
@@ -17,8 +18,8 @@ class HistoryManager {
     this.load();
   }
 
-  public add(question: string, answer: string): void {
-    this.entries.unshift({ question, answer, timestamp: Date.now() });
+  public add(system: string, question: string, answer: string): void {
+    this.entries.unshift({ system, question, answer, timestamp: Date.now() });
 
     if (this.entries.length > MAX_HISTORY) {
       this.entries = this.entries.slice(0, MAX_HISTORY);

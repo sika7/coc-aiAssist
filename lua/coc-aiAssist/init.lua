@@ -110,7 +110,7 @@ function M.show_input(noticeName, title, placeholder)
   end)
 end
 
-function M.showDetailedWindow(noticeName, jsonStr)
+function M.showDetailedWindow(noticeName, title, prompt, jsonStr)
   local items = safeJsonDecode(jsonStr)
 
   local setTemple = function(buf, actions)
@@ -129,7 +129,7 @@ function M.showDetailedWindow(noticeName, jsonStr)
     end
 
     -- バッファーを設定するコールバック
-    window.selectAndPreviewWindow("テンプレート選択", "テンプレ:", items, confirm, cancel)
+    window.selectAndPreviewWindow(title, prompt, items, confirm, cancel)
   end
 
   local sendText = function(text)
