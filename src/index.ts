@@ -1,17 +1,15 @@
 import { commands, ExtensionContext, window, workspace } from "coc.nvim";
 import { focusWinId, showQuestionBox, showResponse } from "./ui";
 import { createCodeOnlyPrompt } from "./prompt";
-import { ClaudeClient } from "./aiClient/claudeClient";
 import { logger } from "./utils/logeer";
-import { getConfig } from "./utils/config";
 import {
-  getPluginFilePath,
   makePrompt,
   removeMarkdownFormat,
   selectedText,
   yankText,
 } from "./utils/utils";
 import { detailedAssist } from "./command";
+import { apiRequestManager } from "./api";
 
 interface ClaudeCommandArgs {
   codeOnly?: boolean;
@@ -24,13 +22,10 @@ export async function activate(context: ExtensionContext): Promise<void> {
   // ロガーの初期化
   logger.info("Claude Command extension activated"); // 開発者ログ
 
-  const { apiKey, model, maxTokens } = await getConfig();
-  const claudeClient = new ClaudeClient(apiKey, model, maxTokens);
+  await apiRequestManager.init();
 
-  if (!apiKey) {
-    logger.error(
-      "Claude API key is not configured. Please set claude.apiKey in your settings.",
-    );
+  if (!apiRequestManager.isHealthy()) {
+    logger.error("API key is not configured.");
     return;
   }
 
@@ -93,7 +88,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
         ? "You are a code generator. You always respond with only functioning code, no explanations outside of code comments."
         : "You are a helpful assistant for developers. Provide clear, concise responses that can be directly used in code.";
 
-      let response = await claudeClient.sendMessage(prompt, system);
+      let response = await apiRequestManager.send(prompt, system);
 
       // コードオンリーリクエストの場合、マークダウンフォーマットを取り除く
       if (codeOnlyMode) {
@@ -149,16 +144,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
     });
   });
 
-  const closeDialogCommandDisposable = commands.registerCommand(
-    "claude.closeDialog",
-    async () => {},
-  );
-
-  const focusDialogCommandDisposable = commands.registerCommand(
-    "claude.focusDialog",
-    async () => {},
-  );
-
   const visualAsk = workspace.registerKeymap(
     ["v"],
     "claude-ask",
@@ -182,13 +167,20 @@ export async function activate(context: ExtensionContext): Promise<void> {
     { silent: true },
   );
 
+  const test = commands.registerCommand("claude.test", async () => {
+    logger.info(`claude-code-test`);
+
+    detailedAssist();
+    // showExample();
+    // writeExample()
+  });
+
   context.subscriptions.push(
     log,
     ask,
     codeOnly,
     visualAsk,
     visualCodeOnly,
-    closeDialogCommandDisposable,
-    focusDialogCommandDisposable,
+    test,
   );
 }

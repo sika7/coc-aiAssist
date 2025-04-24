@@ -1,6 +1,4 @@
-import { logger } from "../utils/logeer";
 import { postRequest } from "../utils/request";
-import { removeMarkdownFormat } from "../utils/utils";
 import { AiClient } from "./common";
 
 // APIレスポンスの型 実際には配列で帰る
@@ -46,7 +44,6 @@ export class ClaudeClient implements AiClient {
 
   async sendMessage(message: string, system: string): Promise<string> {
     try {
-
       const requestData = {
         model: this.model,
         max_tokens: this.maxTokens,

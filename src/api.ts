@@ -1,5 +1,7 @@
+import dotenv from "dotenv";
 import { ClaudeClient } from "./aiClient/claudeClient";
 import { AiClient } from "./aiClient/common";
+import { getNvimConfigFilePath } from "./utils/utils";
 
 export interface Item {
   text: string;
@@ -12,26 +14,37 @@ interface Client {
   aiClient: AiClient;
 }
 
-const AiClients: Client[] = [
-  {
-    name: "Claude",
-    key: "claude",
-    aiClient: new ClaudeClient(),
-  },
-];
-
 class ApiRequestManager {
   currentClient: Client | undefined;
   clients: Client[] = [];
 
-  constructor() {
-    this.clients = this.healthyClients();
+  constructor() {}
+
+  async init() {
+    // ~/.config/nvim/.envから環境変数を取得
+    const envFilePath = await getNvimConfigFilePath(".env");
+    dotenv.config({ path: envFilePath });
+
+    // クライアントで環境変数を使用
+    const AiClients: Client[] = [
+      {
+        name: "Claude",
+        key: "claude",
+        aiClient: new ClaudeClient(),
+      },
+    ];
+
+    this.clients = this.healthyClients(AiClients);
     this.currentClient = this.clients[0];
   }
 
-  healthyClients() {
+  isHealthy() {
+    return this.clients.length > 0;
+  }
+
+  private healthyClients(clients: Client[]) {
     // 実行可能なクライアントを取得
-    return AiClients.filter((client) => {
+    return clients.filter((client) => {
       return client.aiClient.isHealthy();
     });
   }
