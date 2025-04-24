@@ -7,8 +7,16 @@ class Logger {
     this.channel = window.createOutputChannel(name);
   }
 
-  info(message: string): void {
+  info(message: string, data?: any): void {
     this.channel.append(`[INFO] ${message}\n`);
+    if (data) {
+      // データオブジェクトを適切に文字列化
+      if (typeof data === "object") {
+        this.channel.append(`${JSON.stringify(data, null, 2)}\n`);
+      } else {
+        this.channel.append(`${data}\n`);
+      }
+    }
   }
 
   error(message: string, error?: any): void {
