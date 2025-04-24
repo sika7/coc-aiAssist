@@ -9,7 +9,7 @@ interface HistoryEntry {
 }
 
 const MAX_HISTORY = 200;
-const HISTORY_PATH = homeDirPath(".local/share/nvim/my-plugin/history.json");
+const HISTORY_PATH = homeDirPath(".local/share/nvim/ai-assist/history.json");
 
 class HistoryManager {
   private entries: HistoryEntry[] = [];
@@ -48,7 +48,7 @@ class HistoryManager {
         this.entries = parsed.slice(0, MAX_HISTORY);
       }
     } catch (err) {
-      logger.error("ファイルが存在しません");
+      logger.info("ヒストリーファイルがありません")
     }
   }
 }
