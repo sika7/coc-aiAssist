@@ -96,20 +96,6 @@ export async function showHistoryWindow(
   ]);
 }
 
-/**
- * フローティングウィンドウ
- */
-export async function showFloatingWindow(message: string): Promise<void> {
-  const floatingWindow = window.createFloatFactory({
-    border: true,
-    title: "Claude Response",
-    position: "auto",
-  });
-  return await floatingWindow.show([
-    // { filetype: "markdown", content: message },
-    { filetype: "highlight", content: message },
-  ]);
-}
 
 // レスポンスを表示
 export async function showResponse({
@@ -126,25 +112,3 @@ export async function showResponse({
   });
 }
 
-export async function focusWinId(winId: number) {
-  await workspace.nvim.call("win_gotoid", [winId]);
-}
-
-export async function showQuestionBox(placeholder: string = "") {
-  const input = await window.createInputBox("質問", "", {
-    minWidth: 80,
-    position: "center",
-    placeholder,
-  });
-
-  return await new Promise<string | null>((resolve) => {
-    input.onDidChange(() => {
-      input.loading = true;
-    });
-    input.onDidFinish((text) => {
-      setTimeout(() => {
-        resolve(text);
-      }, 50);
-    });
-  });
-}
