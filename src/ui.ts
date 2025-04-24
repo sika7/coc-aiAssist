@@ -18,43 +18,20 @@ function generateShortUuid(length: number = 8): string {
 }
 
 export async function showTestWindow() {
-  const items: Item[] = [
-    {
-      text: "オプション1",
-      value: "value1",
-      preview: {
-        text: "これはオプション1のプレビューです。",
-        ft: "markdown",
-      },
-    },
-    {
-      text: "オプション2",
-      value: "value2",
-      preview: {
-        text: "これはオプション2のプレビューです。",
-        ft: "markdown",
-      },
-    },
-  ];
-  await showWindow(items);
 }
 
-export async function showInput() {
+export async function showInput(callback: (text: string) => void) {
   const eventName = `aiAssist.input.${generateShortUuid(8)}`;
-  eventManager.registerCallback(eventName, (text) => {
-    logger.info(text);
-  });
+  eventManager.registerCallback(eventName, callback);
   workspace.nvim.call("luaeval", [
     `require("coc-aiAssist").show_input("${eventName}", "質問", "")`,
   ]);
 }
 
-export async function showDetailedWindow(items: Item[]) {
+export async function showDetailedWindow(items: Item[], callback: (text: string) => void) {
   const eventName = `aiAssist.window.${generateShortUuid(8)}`;
   const itemsText = JSON.stringify(items).replace(/'/g, "\\'");
-  eventManager.registerCallback(eventName, (text) => {
-    logger.info(text);
-  });
+  eventManager.registerCallback(eventName, callback);
   workspace.nvim.call("luaeval", [
     `require("coc-aiAssist").showDetailedWindow("${eventName}", '${itemsText}')`,
   ]);
