@@ -1,4 +1,4 @@
-import { postRequest } from "../utils/api";
+import { postRequest } from "../utils/request";
 import { removeMarkdownFormat } from "../utils/utils";
 
 // APIレスポンスの型 実際には配列で帰る
