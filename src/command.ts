@@ -92,7 +92,7 @@ export function showHistory() {
 
 export function historyClear() {
   historyManager.clear();
-  toastInfo("aiAssist 履歴をクリアしました。。");
+  toastInfo("aiAssist 履歴をクリアしました。");
 }
 
 export function showPromptTemplateExample() {
