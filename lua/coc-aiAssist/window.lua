@@ -216,7 +216,7 @@ function M.previewWin(text, cancelCallback)
     zindex = 500,
     wo = {
       spell = false,
-      wrap = false,
+      wrap = true,
       signcolumn = "no",
       statuscolumn = " ",
       conceallevel = 0,
