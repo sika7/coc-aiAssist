@@ -49,7 +49,7 @@ class ApiRequestManager {
     });
   }
 
-  getSelectItems(): Item[] {
+  getClientItems(): Item[] {
     return this.clients.map((item) => {
       return {
         text: item.name,
@@ -58,17 +58,41 @@ class ApiRequestManager {
     });
   }
 
-  getCurrentModelName() {
+  getCurrentClientName() {
     if (this.currentClient) return this.currentClient.name;
     return "";
   }
 
-  setCurrentModel(key: string) {
+  setCurrentClient(key: string) {
     const client = this.clients.find((c) => c.key === key);
-    if (!client) {
-      throw new Error("指定されたクライアントはありません");
+    if (client) {
+      this.currentClient = client;
     }
-    this.currentClient = client;
+  }
+
+  getModelItems() {
+    // モデルの選択肢を返す
+    const client = this.currentClient;
+    if (client) {
+      return client.aiClient.allModelItems();
+    }
+    return [];
+  }
+
+  setModel(name: string) {
+    // モデルの選択肢を返す
+    const client = this.currentClient;
+    if (client) {
+      client.aiClient.setModel(name);
+    }
+  }
+
+  getModel() {
+    const client = this.currentClient;
+    if (client) {
+      return client.aiClient.getCurrentModel();
+    }
+    return ""
   }
 
   async send(message: string, system: string) {

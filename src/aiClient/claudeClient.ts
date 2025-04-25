@@ -1,5 +1,7 @@
+import { Item } from "../template";
 import { postRequest } from "../utils/request";
 import { AiClient } from "./common";
+import { claudeModels, modelsToItem } from "./models";
 
 // APIレスポンスの型 実際には配列で帰る
 export interface ClaudeTextContent {
@@ -80,5 +82,20 @@ export class ClaudeClient implements AiClient {
     } catch (error) {
       throw error;
     }
+  }
+
+  setModel(name: string): void {
+    const model = claudeModels.find((item) => item.name === name);
+    if (model) {
+      this.model = model.name;
+    }
+  }
+
+  getCurrentModel(): string {
+    return this.model;
+  }
+
+  allModelItems(): Item[] {
+    return modelsToItem(claudeModels);
   }
 }

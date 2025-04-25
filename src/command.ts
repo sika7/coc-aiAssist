@@ -43,16 +43,30 @@ export async function detailedAssist() {
   );
 }
 
-export async function selectSystemPrompt() {
-  const items = templateManager.getSystemPromptTemplateItems();
-  const label = templateManager.getCurrentSystemPromptName();
+export async function selectModel() {
+  const items = apiRequestManager.getModelItems();
+  const model = apiRequestManager.getModel();
   showSelectWindow(
-    "システムプロンプトを選択",
-    `ロール:${label}`,
+    "モデルを選択",
+    `カレント:${model}`,
     "ivy",
     items,
-    (lavel) => {
-      templateManager.setCurrentSystemPrompt(lavel);
+    (selectModel) => {
+      apiRequestManager.setModel(selectModel);
+    },
+  );
+}
+
+export async function selectSystemPrompt() {
+  const items = templateManager.getSystemPromptTemplateItems();
+  const role = templateManager.getCurrentSystemPromptName();
+  showSelectWindow(
+    "システムプロンプトを選択",
+    `カレント:${role}`,
+    "ivy",
+    items,
+    (selectRole) => {
+      templateManager.setCurrentSystemPrompt(selectRole);
     },
   );
 }

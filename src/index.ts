@@ -4,6 +4,7 @@ import { logger } from "./utils/logeer";
 import {
   detailedAssist,
   quickAssist,
+  selectModel,
   selectSystemPrompt,
   showHistory,
   showPromptTemplateExample,
@@ -133,6 +134,11 @@ export async function activate(context: ExtensionContext): Promise<void> {
     },
   );
 
+  const model = commands.registerCommand("claude.selectModel", async () => {
+    logger.info(`claude-code-selectModel`);
+    selectModel();
+  });
+
   const systemPrompt = commands.registerCommand(
     "claude.selectSystemPrompt",
     async () => {
@@ -172,6 +178,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     ask,
     detailedAsk,
     history,
+    model,
     systemPrompt,
     showExample,
     writeExample,
