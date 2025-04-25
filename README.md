@@ -1,27 +1,26 @@
 # coc-aiAssist
 
-A [coc.nvim](https://github.com/neoclide/coc.nvim) extension that provides integration with Anthropic's Claude AI model directly within Neovim/Vim.
+[coc.nvim](https://github.com/neoclide/coc.nvim)の拡張機能で、NeovimやVim内でAnthropicのClaudeAIモデルを直接利用できます。
 
-## Features
+## 機能
 
-- Ask Claude questions about code and receive responses in a floating window
-- Select code in visual mode and ask Claude about the selected code
-- Choose between different AI models (Claude 3.7 Sonnet, 3.5 Sonnet, 3.5 Haiku, etc.)
-- Quick assist and detailed assist with template selection
-- System prompt selection for different use cases
-- History viewer to review past conversations
-- Prompt template system with examples
-- Code-only mode for getting executable code without explanations
+- Claudeにコードについての質問をして、フローティングウィンドウで回答を受け取る
+- 異なるAIモデル（Claude 3.7 Sonnet、3.5 Sonnet、3.5 Haikuなど）を選択可能
+- テンプレート選択によるクイックアシストと詳細アシスト
+- 異なるユースケース向けのシステムプロンプト選択
+- 過去の会話を確認するための履歴ビューア
+- 例付きのプロンプトテンプレートシステム
 
-## Installation
+## インストール
 
-### Prerequisites
+### 前提条件
 
 - [Node.js](https://nodejs.org/en/) (>= 14.x)
-- [coc.nvim](https://github.com/neoclide/coc.nvim) extension manager
-- An Anthropic API key for accessing Claude models
+- [coc.nvim](https://github.com/neoclide/coc.nvim) 拡張マネージャー
+- [snacks.nvim](https://github.com/folke/snacks.nvim) lua製QOLプラグイン
+- ClaudeモデルにアクセスするためのAnthropic APIキー
 
-### Install with coc.nvim
+### coc.nvimでのインストール
 
 ```init.lua
 require("lazy").setup({
@@ -35,49 +34,41 @@ require("lazy").setup({
 })
 ```
 
-## Configuration
+## 設定
 
-You can modify these settings based on your preferences:
+以下の設定をお好みに合わせて変更できます：
 
-- `claude.apiKey`: Your Anthropic API key (required)
-- `claude.model`: The Claude model to use (default: "claude-3.7-sonnet-20250219")
-- `claude.maxTokens`: Maximum tokens for response (default: 1000)
+- `CLAUDE_API_KEY`: Anthropic APIキー（必須）
+- `CLAUDE_API_MODEL`: 使用するClaudeモデル（デフォルト: "claude-3.7-sonnet-20250219"）
+- `CLAUDE_API_MAX_TOKENS`: 応答の最大トークン数（デフォルト: 1000）
 
-## Commands
+環境変数に設定するか`~/.config/nvim/.env` に設定してください
 
-This extension provides the following commands:
+## コマンド
 
-- `:CocCommand aiAssist.quickAssist`: Quick assistant via input
-- `:CocCommand aiAssist.detailedAssist`: Detailed assistant with template selection
-- `:CocCommand aiAssist.selectClient`: Select AI client
-- `:CocCommand aiAssist.selectModel`: Select Claude model
-- `:CocCommand aiAssist.selectSystemPrompt`: Select system prompt
-- `:CocCommand aiAssist.showHistory`: Show history of conversations
-- `:CocCommand aiAssist.showExample`: Show prompt template examples
-- `:CocCommand aiAssist.writeExample`: Write prompt template examples
-- `:CocCommand aiAssist.log`: Show the Claude extension log
+この拡張機能は以下のコマンドを提供します：
 
-## Keymaps
+- `:CocCommand aiAssist.quickAssist`: インプット入力による素早い質問
+- `:CocCommand aiAssist.detailedAssist`: テンプレート選択による詳細な質問
+- `:CocCommand aiAssist.selectClient`: AIクライアントの選択
+- `:CocCommand aiAssist.selectModel`: AIモデルの選択("claude-3.7-sonnet-20250219"など)
+- `:CocCommand aiAssist.selectSystemPrompt`: システムプロンプトの選択
+- `:CocCommand aiAssist.showHistory`: 会話履歴の表示
+- `:CocCommand aiAssist.showExample`: プロンプトテンプレートの例を表示
+- `:CocCommand aiAssist.writeExample`: プロンプトテンプレートの例を書き込む
+- `:CocCommand aiAssist.log`: Claude拡張機能のログを表示
 
-The extension registers the following default keymaps in visual mode:
+## プロンプトテンプレート
 
-- `<Plug>(claude-ask)`: Ask Claude about selected code
-- `<Plug>(claude-ask-code-only)`: Ask Claude about selected code with code-only mode
+この拡張機能はカスタマイズ可能なプロンプトテンプレートをサポートしています。提供された設定例のファイルを基にして、 `~/.config/nvim/` に`prompt-template.yaml`ファイルを作成してください。
 
-Add to your vimrc/init.vim to customize:
+または `:CocCommand aiAssist.writeExample` コマンドでファイルが作成されます。
 
-```vim
-" Example keymaps
-vmap <leader>ca <Plug>(claude-ask)
-vmap <leader>cc <Plug>(claude-ask-code-only)
-```
-
-## Prompt Templates
-
-The extension supports customizable prompt templates. Create a `prompt-template.yaml` file in your project root based on the provided example file.
+systemはAIがどのような振る舞いをするか
+templatesはリクエストする文章のテンプレ
 
 ```yaml
-# Example structure
+# 構造例
 version: "1.0"
 
 system:
@@ -92,38 +83,43 @@ templates:
     template: "I need executable code only, no explanations..."
 ```
 
-## Usage
+## 使用方法
 
-### Quick Assist
+### クイックアシスト
 
-1. Run `:CocCommand aiAssist.quickAssist`
-2. Type your question in the input box
-3. Claude will respond and the answer will be saved in history
+1. `:CocCommand aiAssist.quickAssist`を実行
+2. 入力ボックスに質問を入力
+3. Claudeが応答し、回答は履歴に保存されます
 
-### Detailed Assist
+### 詳細アシスト
 
-1. Run `:CocCommand aiAssist.detailedAssist`
-2. Select a prompt template
-3. Enter your question
-4. Claude will respond with a more detailed answer
+1. `:CocCommand aiAssist.detailedAssist`を実行
+2. プロンプトテンプレートを選択
+3. 質問を入力
+4. Claudeがより詳細な回答をします
 
-### Model Selection
+### 回答の表示
 
-1. Run `:CocCommand aiAssist.selectModel`
-2. Choose from available Claude models
-3. The selected model will be used for future requests
+1. `:CocCommand aiAssist.showHistory`を実行
+2. 質問を選択し回答を見ます
+3. <c-j><c-k>で選択の移動エンターで大きく見れます
 
-### System Prompt Selection
+### モデル選択
 
-1. Run `:CocCommand aiAssist.selectSystemPrompt`
-2. Choose from available system prompts
-3. The selected system prompt defines Claude's behavior
+1. `:CocCommand aiAssist.selectModel`を実行
+2. 利用可能なClaudeモデルから選択
+3. 選択したモデルが今後のリクエストに使用されます
 
-## License
+### システムプロンプト選択
+
+1. `:CocCommand aiAssist.selectSystemPrompt`を実行
+2. 利用可能なシステムプロンプトから選択
+3. 選択したシステムプロンプトがClaudeの動作を定義します
+
+## ライセンス
 
 MIT
 
 ---
 
-> This extension is built with [create-coc-extension](https://github.com/fannheyward/create-coc-extension)
-
+> この拡張機能は[create-coc-extension](https://github.com/fannheyward/create-coc-extension)で構築されています
