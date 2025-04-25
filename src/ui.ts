@@ -34,10 +34,10 @@ export async function showDetailedWindow(
   callback: (text: string) => void,
 ) {
   const eventName = `aiAssist.window.${generateShortUuid(8)}`;
-  const itemsText = JSON.stringify(items).replace(/'/g, "\\'");
+  const itemsText = JSON.stringify(items);
   eventManager.registerCallback(eventName, callback);
   workspace.nvim.call("luaeval", [
-    `require("coc-aiAssist").showDetailedWindow("${eventName}", "${title}", "${prompt}", '${itemsText}')`,
+    `require("coc-aiAssist").showDetailedWindow("${eventName}", "${title}", "${prompt}", [=[${itemsText}]=])`,
   ]);
 }
 
@@ -55,12 +55,12 @@ export async function showSelectWindow(
   callback: (selectValue: string) => void,
 ) {
   const eventName = `aiAssist.selectWin.${generateShortUuid(8)}`;
-  const itemsText = JSON.stringify(items).replace(/'/g, "\\'");
+  const itemsText = JSON.stringify(items);
   eventManager.registerCallback(eventName, (value) => {
     callback(value);
   });
   workspace.nvim.call("luaeval", [
-    `require("coc-aiAssist").selectWindow("${eventName}", "${title}", "${prompt}", "${layoutType}", '${itemsText}')`,
+    `require("coc-aiAssist").selectWindow("${eventName}", "${title}", "${prompt}", "${layoutType}", [=[${itemsText}]=])`,
   ]);
 }
 
@@ -71,7 +71,7 @@ export async function showSelectAndPreviewWindow(
   callback: (selectValue: string) => void,
 ) {
   const eventName = `aiAssist.selectAndPreviewWin.${generateShortUuid(8)}`;
-  const itemsText = JSON.stringify(items).replace(/'/g, "\\'");
+  const itemsText = JSON.stringify(items);
   eventManager.registerCallback(eventName, (value) => {
     callback(value);
     // items
@@ -82,7 +82,7 @@ export async function showSelectAndPreviewWindow(
     //   });
   });
   workspace.nvim.call("luaeval", [
-    `require("coc-aiAssist").selectAndPreviewWindow("${eventName}", "${title}", "${prompt}", '${itemsText}')`,
+    `require("coc-aiAssist").selectAndPreviewWindow("${eventName}", "${title}", "${prompt}", [=[${itemsText}]=])`,
   ]);
 }
 
@@ -91,9 +91,10 @@ export async function showHistoryWindow(
   prompt = "",
   items: Item[] = [],
 ) {
-  const itemsText = JSON.stringify(items).replace(/'/g, "\\'");
+  const itemsText = JSON.stringify(items);
+  logger.info("データ", items);
   workspace.nvim.call("luaeval", [
-    `require("coc-aiAssist").historyWindow("${title}", "${prompt}", '${itemsText}')`,
+    `require("coc-aiAssist").historyWindow("${title}", "${prompt}", [=[${itemsText}]=])`,
   ]);
 }
 

@@ -20,17 +20,17 @@ export function modelsToItem(models: AiModels[]): Item[] {
 
 export const claudeModels: AiModels[] = [
   {
-    name: "claude-3.7-sonnet-20250219",
+    name: "claude-3-7-sonnet-latest",
     description:
       "最新のハイブリッド推論モデル。高度な推論能力と高速応答を両立。コード生成・リファクタリング対応モデル",
   },
   {
-    name: "claude-3.5-sonnet-20241022",
+    name: "claude-3-5-sonnet-latest",
     description:
       "マルチステップ処理やコード生成に優れたバランス型モデル。バランスよくコードレビュー・生成向き",
   },
   {
-    name: "claude-3.5-haiku-20241212",
+    name: "claude-3-5-haiku-latest",
     description:
       "軽量かつ高速な応答が可能なモデル。リアルタイム処理に適している。高速・低コスト。ちょっとした保管やコーディングメモに最適",
   },
@@ -43,9 +43,5 @@ export const claudeModels: AiModels[] = [
     name: "claude-3-sonnet-20240304",
     description:
       "パフォーマンスとコストのバランスが取れたモデル。多用途に適している。",
-  },
-  {
-    name: "claude-instant-1.2",
-    description: "軽量で低コストなモデル。簡易なタスクに適している。",
   },
 ];
