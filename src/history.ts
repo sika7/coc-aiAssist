@@ -42,6 +42,11 @@ class HistoryManager {
     });
   }
 
+  clear() {
+    this.entries = []
+    this.save()
+  }
+
   private save(): void {
     try {
       saveFile(HISTORY_PATH, this.entries);

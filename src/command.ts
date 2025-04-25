@@ -90,6 +90,10 @@ export function showHistory() {
   showHistoryWindow("ヒストリー", "プロンプト", items);
 }
 
+export function historyClear() {
+  historyManager.clear();
+}
+
 export function showPromptTemplateExample() {
   const example = templateManager.example();
   showResponse({ title: "設定例", message: example });

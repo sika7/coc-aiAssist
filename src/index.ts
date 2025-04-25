@@ -3,6 +3,7 @@ import { logger } from "./utils/logeer";
 
 import {
   detailedAssist,
+  historyClear,
   quickAssist,
   selectClient,
   selectModel,
@@ -64,6 +65,14 @@ export async function activate(context: ExtensionContext): Promise<void> {
     showHistory();
   });
 
+  const historyClearCommand = commands.registerCommand(
+    "aiAssist.historyClear",
+    async () => {
+      logger.info(`aiAssist-historyClear`);
+      historyClear();
+    },
+  );
+
   const showExample = commands.registerCommand(
     "aiAssist.showExample",
     async () => {
@@ -90,6 +99,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     ask,
     detailedAsk,
     history,
+    historyClearCommand,
     client,
     model,
     systemPrompt,
