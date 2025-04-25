@@ -8,15 +8,9 @@ export interface Item {
   value: string; // 選択時に返却されるデータ
 }
 
-interface Client {
-  name: string; // 表示名
-  key: string; // 小文字
-  aiClient: AiClient;
-}
-
 class ApiRequestManager {
-  currentClient: Client | undefined;
-  clients: Client[] = [];
+  currentClient: AiClient | undefined;
+  clients: AiClient[] = [];
 
   constructor() {}
 
@@ -26,13 +20,7 @@ class ApiRequestManager {
     dotenv.config({ path: envFilePath });
 
     // クライアントで環境変数を使用
-    const AiClients: Client[] = [
-      {
-        name: "Claude",
-        key: "claude",
-        aiClient: new ClaudeClient(),
-      },
-    ];
+    const AiClients: AiClient[] = [new ClaudeClient()];
 
     this.clients = this.healthyClients(AiClients);
     this.currentClient = this.clients[0];
@@ -42,10 +30,10 @@ class ApiRequestManager {
     return this.clients.length > 0;
   }
 
-  private healthyClients(clients: Client[]) {
+  private healthyClients(clients: AiClient[]) {
     // 実行可能なクライアントを取得
     return clients.filter((client) => {
-      return client.aiClient.isHealthy();
+      return client.isHealthy();
     });
   }
 
@@ -53,7 +41,11 @@ class ApiRequestManager {
     return this.clients.map((item) => {
       return {
         text: item.name,
-        value: item.key,
+        value: item.name,
+        preview: {
+          text: item.description,
+          ft: "markdown",
+        },
       };
     });
   }
@@ -63,8 +55,8 @@ class ApiRequestManager {
     return "";
   }
 
-  setCurrentClient(key: string) {
-    const client = this.clients.find((c) => c.key === key);
+  setCurrentClient(name: string) {
+    const client = this.clients.find((c) => c.name === name);
     if (client) {
       this.currentClient = client;
     }
@@ -74,7 +66,7 @@ class ApiRequestManager {
     // モデルの選択肢を返す
     const client = this.currentClient;
     if (client) {
-      return client.aiClient.allModelItems();
+      return client.allModelItems();
     }
     return [];
   }
@@ -83,23 +75,23 @@ class ApiRequestManager {
     // モデルの選択肢を返す
     const client = this.currentClient;
     if (client) {
-      client.aiClient.setModel(name);
+      client.setModel(name);
     }
   }
 
   getModel() {
     const client = this.currentClient;
     if (client) {
-      return client.aiClient.getCurrentModel();
+      return client.getCurrentModel();
     }
-    return ""
+    return "";
   }
 
   async send(message: string, system: string) {
     if (!this.currentClient) {
       throw new Error("クライアントがありません");
     }
-    return await this.currentClient.aiClient.sendMessage(message, system);
+    return await this.currentClient.sendMessage(message, system);
   }
 }
 

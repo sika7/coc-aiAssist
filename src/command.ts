@@ -43,6 +43,20 @@ export async function detailedAssist() {
   );
 }
 
+export async function selectClient() {
+  const items = apiRequestManager.getClientItems();
+  const client = apiRequestManager.getCurrentClientName();
+  showSelectWindow(
+    "AIを選択",
+    `カレント:${client}`,
+    "ivy",
+    items,
+    (selectClient) => {
+      apiRequestManager.setCurrentClient(selectClient);
+    },
+  );
+}
+
 export async function selectModel() {
   const items = apiRequestManager.getModelItems();
   const model = apiRequestManager.getModel();

@@ -24,6 +24,8 @@ const isNumber = (value: any): value is number =>
 // Claude API クライアントクラス
 export class ClaudeClient implements AiClient {
   name = "claude";
+  description =
+    "提供: Anthropic\n・特徴: 安全性・丁寧さ・構造理解が高い。長文処理・仕様理解・コード生成に強い\n・用途: コーディング、技術文書の理解、長文要約、対話支援";
   private apiKey: string;
   private model: string;
   private maxTokens: number = 1000;
