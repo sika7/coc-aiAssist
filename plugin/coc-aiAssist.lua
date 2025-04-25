@@ -9,10 +9,10 @@ local function check_dependencies()
 
   if has_snacks then
     vim.g.coc_ai_assist_extension_deps_loaded = true
-    vim.notify("MyExtension: Dependencies loaded successfully", vim.log.levels.INFO)
+    -- vim.notify("aiAssist: Dependencies loaded successfully", vim.log.levels.INFO)
   else
     vim.notify(
-      "MyExtension: Dependencies not found. Please add to your lazy.nvim config",
+      "aiAssist: Dependencies not found. Please add to your lazy.nvim config",
       vim.log.levels.WARN
     )
   end
