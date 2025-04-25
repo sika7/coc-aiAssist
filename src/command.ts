@@ -9,6 +9,7 @@ import {
   showSelectWindow,
   toastInfo,
 } from "./ui";
+import {notis} from "./utils/utils";
 
 // インプットで質問する機能
 export async function quickAssist() {
@@ -88,6 +89,7 @@ export async function selectSystemPrompt() {
 export function showHistory() {
   const items = historyManager.getAllItems();
   showHistoryWindow("ヒストリー", "プロンプト", items);
+  notis("aiAssist 履歴をクリアしました。。")
 }
 
 export function historyClear() {

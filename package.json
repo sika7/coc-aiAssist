@@ -68,6 +68,10 @@
         "title": "Show history of conversations"
       },
       {
+        "command": "aiAssist.historyClear",
+        "title": "Clear history"
+      },
+      {
         "command": "aiAssist.showExample",
         "title": "Show prompt template examples"
       },

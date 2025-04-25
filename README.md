@@ -54,6 +54,7 @@ require("lazy").setup({
 - `:CocCommand aiAssist.selectModel`: AIモデルの選択("claude-3.7-sonnet-20250219"など)
 - `:CocCommand aiAssist.selectSystemPrompt`: システムプロンプトの選択
 - `:CocCommand aiAssist.showHistory`: 会話履歴の表示
+- `:CocCommand aiAssist.historyClear`: 会話履歴の削除
 - `:CocCommand aiAssist.showExample`: プロンプトテンプレートの例を表示
 - `:CocCommand aiAssist.writeExample`: プロンプトテンプレートの例を書き込む
 - `:CocCommand aiAssist.log`: Claude拡張機能のログを表示
