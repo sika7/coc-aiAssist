@@ -78,20 +78,15 @@ local winSetting = {
   },
 }
 -- メイン機能
-function M.selectWindow(title, prompt, items, callback)
+function M.selectWindow(title, prompt, layoutType, items, callback)
   local picker = require("snacks.picker")
   picker.pick({
     prompt = prompt,
     title = title,
     items = items,
     format = "text",
-    layout = "select",
-    preview = false,
-    -- search = function(_, item)
-    --   return ""
-    -- end,
-    -- live = true,
-    -- supports_live = false,
+    layout = layoutType,
+    preview = "preview",
     win = winSetting,
     confirm = function(pickerInstance, item)
       callback(item)

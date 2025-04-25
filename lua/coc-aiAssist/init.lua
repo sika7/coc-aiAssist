@@ -26,15 +26,15 @@ function M.toastInfo(message)
   vim.notify(message, vim.log.levels.INFO)
 end
 
-function M.selectWindow(noticeName, title, prompt, jsonStr)
-  local items = vim.fn.json_decode(jsonStr)
-  window.selectWindow(title, prompt, items, function(item)
+function M.selectWindow(noticeName, title, prompt, layoutType, jsonStr)
+  local items = safeJsonDecode(jsonStr)
+  window.selectWindow(title, prompt, layoutType, items, function(item)
     myNotice(noticeName, item.value)
   end)
 end
 
 function M.selectAndPreviewWindow(noticeName, title, prompt, jsonStr)
-  local items = vim.fn.json_decode(jsonStr)
+  local items = safeJsonDecode(jsonStr)
   window.selectAndPreviewWindow(title, prompt, items, function(item)
     myNotice(noticeName, item.value)
   end)

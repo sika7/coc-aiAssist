@@ -50,6 +50,7 @@ export async function toastInfo(message: string) {
 export async function showSelectWindow(
   title = "",
   prompt = "",
+  layoutType: "select" | "ivy" | "default" | "vertical" | "vscode" = "default",
   items: Item[] = [],
   callback: (selectValue: string) => void,
 ) {
@@ -59,7 +60,7 @@ export async function showSelectWindow(
     callback(value);
   });
   workspace.nvim.call("luaeval", [
-    `require("coc-aiAssist").selectWindow("${eventName}", "${title}", "${prompt}", '${itemsText}')`,
+    `require("coc-aiAssist").selectWindow("${eventName}", "${title}", "${prompt}", "${layoutType}", '${itemsText}')`,
   ]);
 }
 
@@ -96,7 +97,6 @@ export async function showHistoryWindow(
   ]);
 }
 
-
 // レスポンスを表示
 export async function showResponse({
   title = "",
@@ -111,4 +111,3 @@ export async function showResponse({
     content: message,
   });
 }
-

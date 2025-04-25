@@ -6,6 +6,7 @@ import {
   showHistoryWindow,
   showInput,
   showResponse,
+  showSelectWindow,
   toastInfo,
 } from "./ui";
 
@@ -38,6 +39,20 @@ export async function detailedAssist() {
       const answer = await apiRequestManager.send(question, systemPrompt);
       historyManager.add(systemPrompt, question, answer);
       toastInfo("AIから回答が届きました");
+    },
+  );
+}
+
+export async function selectSystemPrompt() {
+  const items = templateManager.getSystemPromptTemplateItems();
+  const label = templateManager.getCurrentSystemPromptName();
+  showSelectWindow(
+    "システムプロンプトを選択",
+    `ロール:${label}`,
+    "ivy",
+    items,
+    (lavel) => {
+      templateManager.setCurrentSystemPrompt(lavel);
     },
   );
 }
