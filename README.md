@@ -1,4 +1,4 @@
-# coc-claude
+# coc-aiAssist
 
 A [coc.nvim](https://github.com/neoclide/coc.nvim) extension that provides integration with Anthropic's Claude AI model directly within Neovim/Vim.
 
@@ -23,25 +23,19 @@ A [coc.nvim](https://github.com/neoclide/coc.nvim) extension that provides integ
 
 ### Install with coc.nvim
 
-<!-- ```vim
-:CocInstall coc-claude
-``` -->
-
-```init.vim
-Plug 'sika7/coc-claude'
+```init.lua
+require("lazy").setup({
+  {
+    'sika7/coc-aiAssist',
+    dependencies = {
+      'neoclide/coc.nvim',
+      'folke/snacks.nvim',
+    },
+  },
+})
 ```
 
 ## Configuration
-
-Add the following settings to your coc-settings.json file:
-
-```json
-{
-  "claude.apiKey": "YOUR_ANTHROPIC_API_KEY",
-  "claude.model": "claude-3.7-sonnet-20250219",
-  "claude.maxTokens": 1000
-}
-```
 
 You can modify these settings based on your preferences:
 
@@ -53,15 +47,15 @@ You can modify these settings based on your preferences:
 
 This extension provides the following commands:
 
-- `:CocCommand claude.quickAssist`: Quick assistant via input
-- `:CocCommand claude.detailedAssist`: Detailed assistant with template selection
-- `:CocCommand claude.selectClient`: Select AI client
-- `:CocCommand claude.selectModel`: Select Claude model
-- `:CocCommand claude.selectSystemPrompt`: Select system prompt
-- `:CocCommand claude.showHistory`: Show history of conversations
-- `:CocCommand claude.showExample`: Show prompt template examples
-- `:CocCommand claude.writeExample`: Write prompt template examples
-- `:CocCommand claude.log`: Show the Claude extension log
+- `:CocCommand aiAssist.quickAssist`: Quick assistant via input
+- `:CocCommand aiAssist.detailedAssist`: Detailed assistant with template selection
+- `:CocCommand aiAssist.selectClient`: Select AI client
+- `:CocCommand aiAssist.selectModel`: Select Claude model
+- `:CocCommand aiAssist.selectSystemPrompt`: Select system prompt
+- `:CocCommand aiAssist.showHistory`: Show history of conversations
+- `:CocCommand aiAssist.showExample`: Show prompt template examples
+- `:CocCommand aiAssist.writeExample`: Write prompt template examples
+- `:CocCommand aiAssist.log`: Show the Claude extension log
 
 ## Keymaps
 
@@ -89,11 +83,11 @@ version: "1.0"
 system:
   - lavel: "Developer Assistant"
     value: "You are a helpful assistant for developers..."
-    
+
 templates:
   - template_type: "Normal"
     template: ""
-    
+
   - template_type: "Code Only"
     template: "I need executable code only, no explanations..."
 ```
@@ -101,23 +95,27 @@ templates:
 ## Usage
 
 ### Quick Assist
-1. Run `:CocCommand claude.quickAssist`
+
+1. Run `:CocCommand aiAssist.quickAssist`
 2. Type your question in the input box
 3. Claude will respond and the answer will be saved in history
 
 ### Detailed Assist
-1. Run `:CocCommand claude.detailedAssist`
+
+1. Run `:CocCommand aiAssist.detailedAssist`
 2. Select a prompt template
 3. Enter your question
 4. Claude will respond with a more detailed answer
 
 ### Model Selection
-1. Run `:CocCommand claude.selectModel`
+
+1. Run `:CocCommand aiAssist.selectModel`
 2. Choose from available Claude models
 3. The selected model will be used for future requests
 
 ### System Prompt Selection
-1. Run `:CocCommand claude.selectSystemPrompt`
+
+1. Run `:CocCommand aiAssist.selectSystemPrompt`
 2. Choose from available system prompts
 3. The selected system prompt defines Claude's behavior
 
@@ -128,3 +126,4 @@ MIT
 ---
 
 > This extension is built with [create-coc-extension](https://github.com/fannheyward/create-coc-extension)
+

@@ -15,73 +15,73 @@ import { apiRequestManager } from "./api";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   // ロガーの初期化
-  logger.info("Claude Command extension activated"); // 開発者ログ
+  logger.info("aiAssist Command extension activated"); // 開発者ログ
 
   await apiRequestManager.init();
 
   if (!apiRequestManager.isHealthy()) {
-    logger.error("API key is not configured.");
+    logger.error("aiAssist API keyが設定されていません");
     return;
   }
 
-  const log = commands.registerCommand("claude.log", async () => {
+  const log = commands.registerCommand("aiAssist.log", async () => {
     logger.show();
   });
 
-  const ask = commands.registerCommand("claude.quickAssist", async () => {
-    logger.info(`claude-code-quickAssist`);
+  const ask = commands.registerCommand("aiAssist.quickAssist", async () => {
+    logger.info(`aiAssist-quickAssist`);
     quickAssist();
   });
 
   const detailedAsk = commands.registerCommand(
-    "claude.detailedAssist",
+    "aiAssist.detailedAssist",
     async () => {
-      logger.info(`claude-code-detailedAssist`);
+      logger.info(`aiAssist-detailedAssist`);
       detailedAssist();
     },
   );
 
-  const client = commands.registerCommand("claude.selectClient", async () => {
-    logger.info(`claude-code-selectClient`);
+  const client = commands.registerCommand("aiAssist.selectClient", async () => {
+    logger.info(`aiAssist-selectClient`);
     selectClient();
   });
 
-  const model = commands.registerCommand("claude.selectModel", async () => {
-    logger.info(`claude-code-selectModel`);
+  const model = commands.registerCommand("aiAssist.selectModel", async () => {
+    logger.info(`aiAssist-selectModel`);
     selectModel();
   });
 
   const systemPrompt = commands.registerCommand(
-    "claude.selectSystemPrompt",
+    "aiAssist.selectSystemPrompt",
     async () => {
-      logger.info(`claude-code-selectSystemPrompt`);
+      logger.info(`aiAssist-selectSystemPrompt`);
       selectSystemPrompt();
     },
   );
 
-  const history = commands.registerCommand("claude.showHistory", async () => {
-    logger.info(`claude-code-showHistory`);
+  const history = commands.registerCommand("aiAssist.showHistory", async () => {
+    logger.info(`aiAssist-showHistory`);
     showHistory();
   });
 
   const showExample = commands.registerCommand(
-    "claude.showExample",
+    "aiAssist.showExample",
     async () => {
-      logger.info(`claude-code-showExample`);
+      logger.info(`aiAssist-showExample`);
       showPromptTemplateExample();
     },
   );
 
   const writeExample = commands.registerCommand(
-    "claude.writeExample",
+    "aiAssist.writeExample",
     async () => {
-      logger.info(`claude-code-showExample`);
+      logger.info(`aiAssist-showExample`);
       writePromptTemplateExample();
     },
   );
 
-  const test = commands.registerCommand("claude.test", async () => {
-    logger.info(`claude-code-test`);
+  const test = commands.registerCommand("aiAssist.test", async () => {
+    logger.info(`aiAssist-test`);
     detailedAssist();
   });
 

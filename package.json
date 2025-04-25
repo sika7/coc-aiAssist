@@ -1,5 +1,5 @@
 {
-  "name": "coc-claude",
+  "name": "coc-ai-assist",
   "version": "0.0.0-development",
   "description": "A coc.nvim extension that provides integration with Anthropic's Claude AI models directly within Neovim/Vim",
   "author": "sika7 <91676209+sika7@users.noreply.github.com>",
@@ -33,50 +33,50 @@
   "contributes": {
     "configuration": {
       "type": "object",
-      "title": "coc-claude configuration",
+      "title": "coc-aiAssist configuration",
       "properties": {
-        "coc-claude.enabled": {
+        "coc-ai-assist.enabled": {
           "type": "boolean",
           "default": true,
-          "description": "Enable coc-claude extension"
+          "description": "Enable coc-ai-assist extension"
         }
       }
     },
     "commands": [
       {
-        "command": "claude.quickAssist",
+        "command": "aiAssist.quickAssist",
         "title": "Quick assistant via input"
       },
       {
-        "command": "claude.detailedAssist",
+        "command": "aiAssist.detailedAssist",
         "title": "Detailed assistant with template selection"
       },
       {
-        "command": "claude.selectClient",
+        "command": "aiAssist.selectClient",
         "title": "Select AI client"
       },
       {
-        "command": "claude.selectModel",
+        "command": "aiAssist.selectModel",
         "title": "Select Claude model"
       },
       {
-        "command": "claude.selectSystemPrompt",
+        "command": "aiAssist.selectSystemPrompt",
         "title": "Select system prompt"
       },
       {
-        "command": "claude.showHistory",
+        "command": "aiAssist.showHistory",
         "title": "Show history of conversations"
       },
       {
-        "command": "claude.showExample",
+        "command": "aiAssist.showExample",
         "title": "Show prompt template examples"
       },
       {
-        "command": "claude.writeExample",
+        "command": "aiAssist.writeExample",
         "title": "Write prompt template examples"
       },
       {
-        "command": "claude.log",
+        "command": "aiAssist.log",
         "title": "Show Claude extension log"
       }
     ]
