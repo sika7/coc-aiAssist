@@ -4,6 +4,7 @@ import { AiClient } from "./aiClient/common";
 import { getNvimConfigFilePath } from "./utils/utils";
 import { GeminiClient } from "./aiClient/geminiClient";
 import { ChatGtpClient } from "./aiClient/chatgtpClient";
+import { PerplexityClient } from "./aiClient/perplexityClient";
 
 export interface Item {
   text: string;
@@ -26,6 +27,7 @@ class ApiRequestManager {
       new ClaudeClient(),
       new GeminiClient(),
       new ChatGtpClient(),
+      new PerplexityClient(),
     ];
 
     this.clients = this.healthyClients(AiClients);

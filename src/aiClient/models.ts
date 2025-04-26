@@ -136,3 +136,61 @@ export const chatGtpModels: AiModels[] = [
       "対話に最適化された効率的なモデル。チャットボットアプリケーションや会話インターフェースに理想的。テキスト生成が最も高速で費用対効果が高い。",
   },
 ];
+
+export const perplexityModels: AiModels[] = [
+  {
+    name: "llama-3.1-sonar-small-128k-online",
+    description:
+      "高速で効率的な検索モデル。基本的な質問応答に最適化されており、コスト効率に優れている。リアルタイム検索機能を備え、引用付きの回答を生成。",
+  },
+  {
+    name: "llama-3.1-sonar-large-128k-online",
+    description:
+      "複雑なクエリとより深いコンテンツ理解に最適化された高度な検索モデル。GPT-4o miniやClaude 3.5 Haikuを大幅に上回るパフォーマンスを提供。",
+  },
+  {
+    name: "llama-3.1-sonar-huge-128k-online",
+    description:
+      "多段階の推論、問題解決、およびリアルタイム検索に最適化された高性能モデル。GPT-4oと同等の性能を持ちながら、処理速度が10倍以上速い。",
+  },
+  {
+    name: "sonar-large-32k",
+    description:
+      "Llama 3.4をベースにした簡潔さと正確さを重視したモデル。Perplexityの検索エンジンとシームレスに連携するよう社内で訓練されている。",
+  },
+  {
+    name: "sonar-pro",
+    description:
+      "より高度な多段階クエリ処理能力を持ち、検索結果の引用数がSonarの2倍。事実性に関するSimpleQAベンチマークでF-score 0.858を達成。",
+  },
+  {
+    name: "gpt-4-omni",
+    description:
+      "[Perplexity Proサブスクリプション]OpenAIのGPT-4 Omni。最新のテキスト、画像、音声処理能力を備えた高度なモデル。",
+  },
+  {
+    name: "claude-3.5-sonnet",
+    description:
+      "[Perplexity Proサブスクリプション]Anthropicの最新モデル。微妙な言語タスクの処理に優れ、速度と精度のバランスが良い。",
+  },
+  {
+    name: "claude-3.5-haiku",
+    description:
+      "[Perplexity Proサブスクリプション]Anthropicの軽量かつ高速なモデルで、基本的なタスクに対応。",
+  },
+  {
+    name: "o13",
+    description:
+      "[Perplexity Proサブスクリプション]複雑な推論タスクに特化したOpenAIのモデル。コーディング、高度な数学、科学研究に優れた能力を発揮。",
+  },
+  {
+    name: "deepseek-r1",
+    description:
+      "[Perplexity Proサブスクリプション]論理的推論、数学的問題解決、リアルタイム意思決定に特化したコスト効率の高いオープンソースモデル。",
+  },
+  {
+    name: "gemini-pro",
+    description:
+      "[Perplexity Proサブスクリプション]Googleの最新AIモデル。リアルタイム機能を備え、日常的なタスクに適している。",
+  },
+];

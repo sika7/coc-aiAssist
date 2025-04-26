@@ -50,6 +50,10 @@ require("lazy").setup({
 - `OPENAI_API_MODEL`: 使用するモデル（デフォルト: "gpt-4.1-mini"）
 - `OPENAI_API_MAX_TOKENS`: 応答の最大トークン数（デフォルト: 1000）
 
+- `PERPLEXITY_API_KEY`: Perplexity APIキー（必須）
+- `PERPLEXITY_API_MODEL`: 使用するモデル（デフォルト: "sonar-pro"）
+- `PERPLEXITY_API_MAX_TOKENS`: 応答の最大トークン数（デフォルト: 1000）
+
 環境変数に設定するか`~/.config/nvim/.env` に設定してください
 
 ## コマンド
