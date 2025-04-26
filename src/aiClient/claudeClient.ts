@@ -1,5 +1,6 @@
+import { generateText } from "ai";
+import { anthropic } from "@ai-sdk/anthropic";
 import { Item } from "../template";
-import { postRequest } from "../utils/request";
 import { AiClient } from "./common";
 import { claudeModels, modelsToItem } from "./models";
 
@@ -7,15 +8,6 @@ import { claudeModels, modelsToItem } from "./models";
 export interface ClaudeTextContent {
   type: string;
   text: string;
-}
-
-// レスポンス構造の処理
-function responseToText(content: ClaudeTextContent[]): string {
-  // content は配列で、各要素に type が含まれる
-  return content
-    .filter((item: any) => item.type === "text")
-    .map((item: any) => item.text)
-    .join("\n");
 }
 
 const isNumber = (value: any): value is number =>
@@ -31,10 +23,11 @@ export class ClaudeClient implements AiClient {
   private maxTokens: number = 1000;
 
   constructor() {
-    this.apiKey = process.env.CLAUDE_API_KEY || "";
-    this.model = process.env.CLAUDE_API_MODEL || "claude-3-7-sonnet-20250219";
+    this.apiKey = process.env.ANTHROPIC_API_KEY || "";
+    this.model =
+      process.env.ANTHROPIC_API_MODEL || "claude-3-7-sonnet-20250219";
 
-    const maxTokens = process.env.CLAUDE_API_MAX_TOKENS;
+    const maxTokens = process.env.ANTHROPIC_API_MAX_TOKENS;
     if (isNumber(maxTokens)) {
       this.maxTokens = maxTokens;
     }
@@ -48,36 +41,16 @@ export class ClaudeClient implements AiClient {
 
   async sendMessage(message: string, system: string): Promise<string> {
     try {
-      const requestData = {
-        model: this.model,
-        max_tokens: this.maxTokens,
-        messages: [
-          {
-            role: "user",
-            content: message,
-          },
-        ],
-        system,
-      };
+      // https://sdk.vercel.ai/providers/ai-sdk-providers/anthropic#anthropic-provider
+      const { text } = await generateText({
+        model: anthropic(this.model),
+        maxTokens: this.maxTokens,
+        system: system,
+        prompt: message,
+      });
 
-      const headers = {
-        "Content-Type": "application/json",
-        "x-api-key": this.apiKey,
-        "anthropic-version": "2023-06-01",
-      };
-
-      const response = await postRequest(
-        "https://api.anthropic.com/v1/messages",
-        requestData,
-        headers,
-      );
-
-      let result = "";
-      // レスポンス構造の処理
-      if (response.data && response.data.content) {
-        // content は配列で、各要素に type が含まれる
-        result = responseToText(response.data.content);
-        return result;
+      if (text) {
+        return text;
       }
 
       throw new Error("Invalid response format from Claude API");

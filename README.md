@@ -38,9 +38,9 @@ require("lazy").setup({
 
 以下の設定をお好みに合わせて変更できます：
 
-- `CLAUDE_API_KEY`: Anthropic APIキー（必須）
-- `CLAUDE_API_MODEL`: 使用するClaudeモデル（デフォルト: "claude-3.7-sonnet-20250219"）
-- `CLAUDE_API_MAX_TOKENS`: 応答の最大トークン数（デフォルト: 1000）
+- `ANTHROPIC_API_KEY`: Anthropic APIキー（必須）
+- `ANTHROPIC_API_MODEL`: 使用するClaudeモデル（デフォルト: "claude-3.7-sonnet-20250219"）
+- `ANTHROPIC_API_MAX_TOKENS`: 応答の最大トークン数（デフォルト: 1000）
 
 環境変数に設定するか`~/.config/nvim/.env` に設定してください
 
