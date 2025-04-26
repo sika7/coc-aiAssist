@@ -1,6 +1,6 @@
 # coc-aiAssist
 
-![Image](https://github.com/user-attachments/assets/b2718987-b7c5-4aa0-a04b-b88ac8869010)
+![Image](https://github.com/user-attachments/assets/302af098-9e28-4df2-988e-a54a39977338)
 
 [coc.nvim](https://github.com/neoclide/coc.nvim)の拡張機能で、NeovimやVim内でAnthropicのClaudeAIモデルを直接利用できます。
 
