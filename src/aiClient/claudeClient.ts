@@ -4,12 +4,6 @@ import { Item } from "../template";
 import { AiClient } from "./common";
 import { claudeModels, modelsToItem } from "./models";
 
-// APIレスポンスの型 実際には配列で帰る
-export interface ClaudeTextContent {
-  type: string;
-  text: string;
-}
-
 const isNumber = (value: any): value is number =>
   typeof value === "number" && !isNaN(value);
 
