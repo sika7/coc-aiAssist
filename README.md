@@ -43,8 +43,12 @@ require("lazy").setup({
 - `ANTHROPIC_API_MAX_TOKENS`: 応答の最大トークン数（デフォルト: 1000）
 
 - `GOOGLE_GENERATIVE_API_KEY`: Gemini APIキー（必須）
-- `GOOGLE_GENERATIVE_API_MODEL`: 使用するモデル（デフォルト: ""）
+- `GOOGLE_GENERATIVE_API_MODEL`: 使用するモデル（デフォルト: "gemini-2.0-flash-001"）
 - `GOOGLE_GENERATIVE_API_MAX_TOKENS`: 応答の最大トークン数（デフォルト: 1000）
+
+- `OPENAI_API_KEY`: ChatGtp APIキー（必須）
+- `OPENAI_API_MODEL`: 使用するモデル（デフォルト: "gpt-4.1-mini"）
+- `OPENAI_API_MAX_TOKENS`: 応答の最大トークン数（デフォルト: 1000）
 
 環境変数に設定するか`~/.config/nvim/.env` に設定してください
 

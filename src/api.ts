@@ -3,6 +3,7 @@ import { ClaudeClient } from "./aiClient/claudeClient";
 import { AiClient } from "./aiClient/common";
 import { getNvimConfigFilePath } from "./utils/utils";
 import { GeminiClient } from "./aiClient/geminiClient";
+import { ChatGtpClient } from "./aiClient/chatgtp";
 
 export interface Item {
   text: string;
@@ -21,7 +22,11 @@ class ApiRequestManager {
     dotenv.config({ path: envFilePath });
 
     // クライアントで環境変数を使用
-    const AiClients: AiClient[] = [new ClaudeClient(), new GeminiClient()];
+    const AiClients: AiClient[] = [
+      new ClaudeClient(),
+      new GeminiClient(),
+      new ChatGtpClient(),
+    ];
 
     this.clients = this.healthyClients(AiClients);
     this.currentClient = this.clients[0];
