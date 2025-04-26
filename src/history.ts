@@ -3,6 +3,9 @@ import { logger } from "./utils/logeer";
 import { Item } from "./template";
 
 interface HistoryEntry {
+  client: string;
+  model: string;
+  role: string; // システムプロンプトのラベル
   system: string;
   question: string;
   answer: string;
@@ -19,8 +22,23 @@ class HistoryManager {
     this.load();
   }
 
-  public add(system: string, question: string, answer: string): void {
-    this.entries.unshift({ system, question, answer, timestamp: Date.now() });
+  public add({
+    client = "",
+    model = "",
+    role = "",
+    system = "",
+    question = "",
+    answer = "",
+  }): void {
+    this.entries.unshift({
+      client,
+      model,
+      role,
+      system,
+      question,
+      answer,
+      timestamp: Date.now(),
+    });
 
     if (this.entries.length > MAX_HISTORY) {
       this.entries = this.entries.slice(0, MAX_HISTORY);
@@ -32,7 +50,7 @@ class HistoryManager {
   public getAllItems(): Item[] {
     return this.entries.map((item) => {
       return {
-        text: `${item.question} ${item.system} ${item.answer}`,
+        text: `[${item.client}:${item.model}:${item.role}] ${item.question} ${item.system} ${item.answer}`,
         value: item.answer,
         preview: {
           text: item.answer,
@@ -43,8 +61,8 @@ class HistoryManager {
   }
 
   clear() {
-    this.entries = []
-    this.save()
+    this.entries = [];
+    this.save();
   }
 
   private save(): void {

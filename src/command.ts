@@ -16,8 +16,18 @@ export async function quickAssist() {
     if (question === "") return;
 
     const systemPrompt = templateManager.getCurrentSystemPrompt();
+    const role = templateManager.getCurrentSystemPromptName();
+    const client = apiRequestManager.getCurrentClientName();
+    const model = apiRequestManager.getModel();
     const answer = await apiRequestManager.send(question, systemPrompt);
-    historyManager.add(systemPrompt, question, answer);
+    historyManager.add({
+      client,
+      model,
+      role,
+      system: systemPrompt,
+      question,
+      answer,
+    });
     toastInfo("AIから回答が届きました");
   });
 }
@@ -36,8 +46,18 @@ export async function detailedAssist() {
       if (question === "") return;
 
       const systemPrompt = templateManager.getCurrentSystemPrompt();
+      const role = templateManager.getCurrentSystemPromptName();
+      const client = apiRequestManager.getCurrentClientName();
+      const model = apiRequestManager.getModel();
       const answer = await apiRequestManager.send(question, systemPrompt);
-      historyManager.add(systemPrompt, question, answer);
+      historyManager.add({
+        client,
+        model,
+        role,
+        system: systemPrompt,
+        question,
+        answer,
+      });
       toastInfo("AIから回答が届きました");
     },
   );
