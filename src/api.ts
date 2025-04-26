@@ -3,7 +3,7 @@ import { ClaudeClient } from "./aiClient/claudeClient";
 import { AiClient } from "./aiClient/common";
 import { getNvimConfigFilePath } from "./utils/utils";
 import { GeminiClient } from "./aiClient/geminiClient";
-import { ChatGtpClient } from "./aiClient/chatgtp";
+import { ChatGtpClient } from "./aiClient/chatgtpClient";
 
 export interface Item {
   text: string;
