@@ -34,6 +34,7 @@ export class GeminiClient implements AiClient {
   }
 
   async sendMessage(message: string, system: string): Promise<string> {
+    // https://sdk.vercel.ai/cookbook/node/web-search-agent#gemini
     try {
       const { text } = await generateText({
         model: google(this.model, {
