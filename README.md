@@ -42,6 +42,10 @@ require("lazy").setup({
 - `ANTHROPIC_API_MODEL`: 使用するClaudeモデル（デフォルト: "claude-3.7-sonnet-20250219"）
 - `ANTHROPIC_API_MAX_TOKENS`: 応答の最大トークン数（デフォルト: 1000）
 
+- `GOOGLE_GENERATIVE_API_KEY`: Gemini APIキー（必須）
+- `GOOGLE_GENERATIVE_API_MODEL`: 使用するモデル（デフォルト: ""）
+- `GOOGLE_GENERATIVE_API_MAX_TOKENS`: 応答の最大トークン数（デフォルト: 1000）
+
 環境変数に設定するか`~/.config/nvim/.env` に設定してください
 
 ## コマンド
