@@ -35,9 +35,10 @@ export class GeminiClient implements AiClient {
 
   async sendMessage(message: string, system: string): Promise<string> {
     try {
-      // https://sdk.vercel.ai/providers/ai-sdk-providers/anthropic#anthropic-provider
       const { text } = await generateText({
-        model: google(this.model),
+        model: google(this.model, {
+          useSearchGrounding: true,
+        }),
         maxTokens: this.maxTokens,
         system: system,
         prompt: message,
